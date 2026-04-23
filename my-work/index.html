@@ -109,6 +109,20 @@
             flex-wrap: wrap;
         }
 
+        .error-bar {
+            background-color: #f8d7da; /* Soft red background */
+            color: #721c24;            /* Deep red text */
+            border: 1px solid #f5c6cb;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-family: sans-serif;
+            font-size: 14px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
         .tag {
             background: var(--light-pink);
             color: var(--accent-pink);
@@ -150,8 +164,8 @@
     </style>
 </head>
 <body>
-
 <div class="container">
+    <div class="error-bar">Sorry for the outages</div>
     <div class="header">
         <a href="https://flairdiva.github.io/me/" class="btn-back"><i class="fas fa-arrow-left"></i> Back to Profile</a>
         <h1>My Work & News</h1>
