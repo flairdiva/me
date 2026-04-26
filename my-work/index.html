@@ -174,19 +174,35 @@
             object-fit: contain;
         }
 
+        .winner-highlight {
+        background: var(--light-pink) !important;
+        border-color: var(--accent-pink) !important;
+        position: relative;
+    }
+    .winner-highlight::after {
+        content: '🏆';
+        position: absolute;
+        left: -15px;
+        top: -15px;
+        font-size: 1.5em;
+    }
+
         .social-links a:hover { transform: translateY(-3px); }
     </style>
     <script src="https://unpkg.com/@lyket/widget@latest/dist/lyket.js?apiKey=pt_798c94e7a2d8bb1643bb2f071cd997"></script>
 </head>
 <body>
 <div class="container">
-    <div class="error-bar">Sorry for the outages</div>
+    <!-- <div class="error-bar">Sorry for the outages</div> -->
     <div class="header">
         <a href="https://flairdiva.github.io/me/" class="btn-back"><i class="fas fa-arrow-left"></i> Back to Profile</a>
         <h1>My Work & News</h1>
         <p>A collection of my latest drawings and projects.</p>
     </div>
 <!-- ADD BELLOW -->
+
+    
+
  
     <div class="work-item">
         <span class="work-date">April 23, 2026 | 18:22</span>
@@ -267,8 +283,13 @@
         ></div>
     </div>
 
-    
-    <!-- <div class="work-item">
+
+    <!-- 
+    Regular Themplates
+
+
+
+    <div class="work-item">
         <span class="work-date">April 21, 2024</span>
         <h2 class="work-title">New Drawing: Character Concept</h2>
         <img src="https://via.placeholder.com/800x450" alt="Work Image" class="work-image">
@@ -292,7 +313,69 @@
             <span class="tag">#PSS</span>
             <span class="tag">#Volunteer</span>
         </div>
-    </div> -->
+    </div>
+    
+    
+    
+    VOTE THEMPLATE Unfinished (waiting for results)
+
+    <div class="work-item">
+            <span class="work-date">April 23, 2026 | 18:22</span>
+            <h2 class="work-title">Vote</h2>
+            <div class="work-info">
+                I made this banner for the maintenance in the team menu of the iifpp,
+                Boddy's Themplate Creddits: angellunablack
+            </div>
+            <div class="poll-container" style="background: var(--light-pink); padding: 20px; border-radius: 20px; margin-top: 20px;">
+        <h3 style="color: var(--accent-pink); margin-top: 0;">Vote for the next project!</h3>
+        
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span>Option A: New Character Design</span>
+                <div data-lyket-type="like" data-lyket-id="poll-option-a" data-lyket-namespace="portfolio" data-lyket-template="twitter"></div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span>Option B: Landscape Painting</span>
+                <div data-lyket-type="like" data-lyket-id="poll-option-b" data-lyket-namespace="portfolio" data-lyket-template="twitter"></div>
+            </div>
+        </div>
+    </div>
+        <div class="work-tags">
+            <span class="tag">#Art</span>
+            <span class="tag">#IIFPP</span>
+        </div>
+    </div>
+
+
+
+
+
+    Finished Themplates
+
+<div class="poll-card" style="background: #fffcfc; border: 2px solid var(--light-pink); border-radius: 20px; padding: 20px; margin-top: 20px;">
+    
+    <h3 style="color: var(--accent-pink); margin-top: 0; display: flex; align-items: center; gap: 10px;">
+        <i class="fas fa-vote-yea"></i> Next Project Vote
+    </h3>
+
+    <div class="poll-option winner-highlight" style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-radius: 12px; margin-bottom: 10px; border: 2px solid transparent;">
+        <span style="font-weight: 600;">Option A: Character Design</span>
+        
+        <span style="font-weight: bold; color: var(--accent-pink);">15 Votes</span>
+        
+        </div>
+
+    <div class="poll-option" style="display: flex; align-items: center; justify-content: space-between; padding: 10px; margin-bottom: 10px;">
+        <span style="font-weight: 500; opacity: 0.8;">Option B: New Banner Art</span>
+        <span style="font-weight: bold; color: var(--accent-pink);">15 Votes</span>
+    </div>
+
+</div>
+
+
+    
+    -->
     <div class="footer">
         <div class="social-links">
             <a href="https://discord.gg/nUtvz4kK5x" target="_blank"><i class="fab fa-discord"></i></a>
