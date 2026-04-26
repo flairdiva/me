@@ -34,6 +34,20 @@
             box-shadow: 0 15px 35px rgba(255, 133, 162, 0.1);
         }
 
+        /* This targets the Lyket button container */
+        [data-lyket-type] {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-start; /* Aligns button to the left */
+        }
+
+        /* Optional: Make the button background match your light pink tags */
+        [data-lyket-type] button {
+            background-color: var(--light-pink) !important;
+            border-radius: 12px !important;
+            padding: 8px 15px !important;
+        }
+
         .header {
             text-align: center;
             margin-bottom: 40px;
@@ -162,6 +176,7 @@
 
         .social-links a:hover { transform: translateY(-3px); }
     </style>
+    <script src="https://unpkg.com/@lyket/widget@latest/dist/lyket.js?apiKey=pt_798c94e7a2d8bb1643bb2f071cd997"></script>
 </head>
 <body>
 <div class="container">
@@ -185,6 +200,12 @@
             <span class="tag">#Art</span>
             <span class="tag">#IIFPP</span>
         </div>
+        <div 
+            data-lyket-type="like" 
+            data-lyket-id="maintenance-team-2026" 
+            data-lyket-namespace="portfolio"
+            data-lyket-color-primary="#ff85a2"
+        ></div>
     </div>
     
     <div class="work-item">
