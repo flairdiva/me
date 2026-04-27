@@ -1,6 +1,7 @@
 <!-- Version 0.0.1 -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,37 +37,42 @@
         }
 
         .profile-section {
-    position: relative; /* This is the anchor for the popup */
-    height: 180px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+            position: relative;
+            /* This is the anchor for the popup */
+            height: 180px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-#pfp-popup {
-    display: none;
-    position: absolute;
-    /* Move it up! 15px from the bottom of the profile-section 
+        #pfp-popup {
+            display: none;
+            position: absolute;
+            /* Move it up! 15px from the bottom of the profile-section 
        places it right at the base of the center circle */
-    bottom: 15px;      
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100; /* High z-index so it stays on top of everything */
-    
-    /* Styling */
-    margin: 0; 
-    font-size: 1em; /* Slightly smaller to look cleaner as a tag */
-    color: var(--accent-pink);
-    font-weight: bold;
-    background: var(--light-pink);
-    border-radius: 20px; /* Rounder edges for a "tag" look */
-    padding: 4px 14px;
-    width: max-content;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(255, 133, 162, 0.3);
-    pointer-events: none; /* Prevents the popup from blocking mouse/scroll events */
-}
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            /* High z-index so it stays on top of everything */
+
+            /* Styling */
+            margin: 0;
+            font-size: 1em;
+            /* Slightly smaller to look cleaner as a tag */
+            color: var(--accent-pink);
+            font-weight: bold;
+            background: var(--light-pink);
+            border-radius: 20px;
+            /* Rounder edges for a "tag" look */
+            padding: 4px 14px;
+            width: max-content;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(255, 133, 162, 0.3);
+            pointer-events: none;
+            /* Prevents the popup from blocking mouse/scroll events */
+        }
 
 
         .pfp-container {
@@ -95,11 +101,13 @@
             opacity: 0.5;
             transform: scale(0.75);
         }
+
         .pfp-center {
             opacity: 1;
             transform: scale(1);
             z-index: 2;
         }
+
         .pfp-right {
             opacity: 0.5;
             transform: scale(0.75);
@@ -118,7 +126,11 @@
             margin-top: 5px;
         }
 
-        h1 { margin: 10px 0; color: var(--accent-pink); font-size: 2.2em; }
+        h1 {
+            margin: 10px 0;
+            color: var(--accent-pink);
+            font-size: 2.2em;
+        }
 
         .mic-status {
             font-size: 1em;
@@ -176,8 +188,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(-50%) translateY(4px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
         }
 
         .bio {
@@ -209,10 +228,13 @@
         .social-links img.roblox-icon {
             width: 28px;
             height: 28px;
-            /* filter: sepia(1) saturate(5) hue-rotate(310deg); /* Adjusts the PNG to match your pink theme */ */
+            /* filter: sepia(1) saturate(5) hue-rotate(310deg); /* Adjusts the PNG to match your pink theme */
+            */
         }
 
-        .social-links a:hover { transform: translateY(-3px); }
+        .social-links a:hover {
+            transform: translateY(-3px);
+        }
 
         .btn-work {
             background: var(--accent-pink);
@@ -226,7 +248,9 @@
             transition: opacity 0.2s;
         }
 
-        .btn-work:hover { opacity: 0.9; }
+        .btn-work:hover {
+            opacity: 0.9;
+        }
 
         .section-title {
             text-align: left;
@@ -251,7 +275,7 @@
             border-radius: 10px;
             overflow: hidden;
             background: #f0f0f0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .game-card img {
@@ -263,7 +287,10 @@
 
         .game-overlay {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(255, 133, 162, 0.9);
             color: white;
             display: flex;
@@ -277,174 +304,211 @@
             transition: opacity 0.3s;
         }
 
-        .game-card:hover .game-overlay { opacity: 1; }
+        .game-card:hover .game-overlay {
+            opacity: 1;
+        }
 
-        a { color: var(--accent-pink); text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        a {
+            color: var(--accent-pink);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-<div class="profile-section">
-        <div class="pfp-container" id="pfp-container">
-            <img class="pfp-left" id="pfp-left" src="" alt="">
-            <img class="pfp-center" id="pfp-center" src="" alt="">
-            <img class="pfp-right" id="pfp-right" src="" alt="">
+    <div class="container">
+        <div class="profile-section">
+            <div class="pfp-container" id="pfp-container">
+                <img class="pfp-left" id="pfp-left" src="" alt="">
+                <img class="pfp-center" id="pfp-center" src="" alt="">
+                <img class="pfp-right" id="pfp-right" src="" alt="">
+            </div>
+            <div id="pfp-popup"></div>
         </div>
-        <div id="pfp-popup"></div>
-    </div>
-    <div id="pfp-popup" style="display:none; margin: 0 auto 10px auto; font-size:1.1em; color:var(--accent-pink); font-weight:bold; background:var(--light-pink); border-radius:12px; padding:6px 18px; width:max-content; min-width:80px; text-align:center; box-shadow:0 2px 8px rgba(255,133,162,0.10);"></div>
+        <div id="pfp-popup"
+            style="display:none; margin: 0 auto 10px auto; font-size:1.1em; color:var(--accent-pink); font-weight:bold; background:var(--light-pink); border-radius:12px; padding:6px 18px; width:max-content; min-width:80px; text-align:center; box-shadow:0 2px 8px rgba(255,133,162,0.10);">
+        </div>
         <!-- .pfp-hint removed as requested -->
-    
-    <h1>Flair Diva</h1>
-    
-    <div class="mic-status">
-        <i class="fas fa-microphone-slash"></i> <span>i don't have a working mic</span>
-    </div>
 
-    <div class="stats-grid">
-        <div class="stat-item">Name: Flair Diva</div>
-        <div class="stat-item" id="birthdate-item" data-hint="">Birthdate: 4 August 2009</div>
-        <div class="stat-item">Gender: Female</div>
-        <div class="stat-item">RS: Taken</div>
-        <div class="stat-item" style="grid-column: span 2;">Sexuality: Straight</div>
-    </div>
+        <h1>Flair Diva</h1>
 
-    <div class="bio">
-        My hobbies include <strong>Drawing</strong> and <strong>Animal Care</strong>. I am currently a volunteer for 
-        <a href="https://plasmastarstudios.com" target="_blank">PSS</a>! 
-        My favorite color is <strong>Pink</strong>. 
-        <br><br>
-        <small><em>Note: I often don't want to share media due to past and mutual bad experiences.</em></small>
-    </div>
+        <div class="mic-status">
+            <i class="fas fa-microphone-slash"></i> <span>i don't have a working mic</span>
+        </div>
 
-    <div class="social-links">
-        <a href="https://discord.gg/nUtvz4kK5x" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
-        <a href="https://www.roblox.com/users/3969064026/profile" target="_blank" title="Roblox">
-            <img src="https://flairdiva.github.io/me/Files/CustomRobloxIcon.png" class="roblox-icon" alt="Roblox">
-        </a>
-        <a href="https://steamcommunity.com/profiles/76561199861712823/" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
-        <a href="https://github.com/flairdiva" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-    </div>
+        <div class="stats-grid">
+            <div class="stat-item">Name: Flair Diva</div>
+            <div class="stat-item" id="birthdate-item" data-hint="">Birthdate: 4 August 2009</div>
+            <div class="stat-item">Gender: Female</div>
+            <div class="stat-item">RS: Taken</div>
+            <div class="stat-item" style="grid-column: span 2;">Sexuality: Straight</div>
+        </div>
 
-    <a href="https://flairdiva.github.io/me/my-work/" class="btn-work">My Activity</a>
+        <div class="bio">
+            My hobbies include <strong>Drawing</strong> and <strong>Animal Care</strong>. I am currently a volunteer for
+            <a href="https://plasmastarstudios.com" target="_blank">PSS</a>!
+            My favorite color is <strong>Pink</strong>.
+            <br><br>
+            <small><em>Note: I often don't want to share media due to past and mutual bad experiences.</em></small>
+        </div>
 
-    <div class="section-title">Games I Own</div>
-    <div class="game-grid">
-        <div class="game-card">
-            <img src="https://imgproxy.eneba.games/FLUy4Z9B1lyZ-1q6r8Zn46naJqdfLDmoXyVGBZgyN_A/rs:fit:300/ar:1/czM6Ly9wcm9kdWN0/cy5lbmViYS5nYW1l/cy9wcm9kdWN0cy9q/Nk1MeVM4endVRFJq/eGlSajdvbVRBdkR2/TkQtQ1hYOEtlS1hT/cklmcG9VLmpwZw" alt="OneShot">
-            <div class="game-overlay">OneShot</div>
+        <div class="social-links">
+            <a href="https://discord.gg/nUtvz4kK5x" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+            <a href="https://www.roblox.com/users/3969064026/profile" target="_blank" title="Roblox">
+                <img src="https://flairdiva.github.io/me/Files/CustomRobloxIcon.png" class="roblox-icon" alt="Roblox">
+            </a>
+            <a href="https://steamcommunity.com/profiles/76561199861712823/" target="_blank" title="Steam"><i
+                    class="fab fa-steam"></i></a>
+            <a href="https://github.com/flairdiva" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
         </div>
-        <div class="game-card">
-            <img src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/07/roblox-cover.jpg?q=50&fit=contain&w=480&dpr=1.5" alt="Roblox">
-            <div class="game-overlay">Roblox</div>
+
+        <a href="https://flairdiva.github.io/me/my-work/" class="btn-work">My Activity</a>
+
+        <div class="section-title">Games I Own</div>
+        <div class="game-grid">
+            <div class="game-card">
+                <img src="https://imgproxy.eneba.games/FLUy4Z9B1lyZ-1q6r8Zn46naJqdfLDmoXyVGBZgyN_A/rs:fit:300/ar:1/czM6Ly9wcm9kdWN0/cy5lbmViYS5nYW1l/cy9wcm9kdWN0cy9q/Nk1MeVM4endVRFJq/eGlSajdvbVRBdkR2/TkQtQ1hYOEtlS1hT/cklmcG9VLmpwZw"
+                    alt="OneShot">
+                <div class="game-overlay">OneShot</div>
+            </div>
+            <div class="game-card">
+                <img src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/07/roblox-cover.jpg?q=50&fit=contain&w=480&dpr=1.5"
+                    alt="Roblox">
+                <div class="game-overlay">Roblox</div>
+            </div>
+            <div class="game-card">
+                <img src="https://upload.wikimedia.org/wikinews/en/7/7a/Minecraft_game_cover.jpeg" alt="Minecraft">
+                <div class="game-overlay">Minecraft</div>
+            </div>
+            <div class="game-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzuUikcRD40s6J9hGdoQBjO7Y0NvAnTJG6Pw&s"
+                    alt="SCP:CB">
+                <div class="game-overlay">SCP: CB</div>
+            </div>
+            <div class="game-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxhMqYZ_G8HfQt1zBdfl5DXA-sy6zYJq1RPA&s"
+                    alt="Changed">
+                <div class="game-overlay">Changed</div>
+            </div>
+            <div class="game-card">
+                <img src="https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co5dj4.jpg" alt="Endoparacitic">
+                <div class="game-overlay">Endoparacitic</div>
+            </div>
         </div>
-        <div class="game-card">
-            <img src="https://upload.wikimedia.org/wikinews/en/7/7a/Minecraft_game_cover.jpeg" alt="Minecraft">
-            <div class="game-overlay">Minecraft</div>
-        </div>
-        <div class="game-card">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzuUikcRD40s6J9hGdoQBjO7Y0NvAnTJG6Pw&s" alt="SCP:CB">
-            <div class="game-overlay">SCP: CB</div>
-        </div>
-        <div class="game-card">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxhMqYZ_G8HfQt1zBdfl5DXA-sy6zYJq1RPA&s" alt="Changed">
-            <div class="game-overlay">Changed</div>
-        </div>
-        <div class="game-card">
-            <img src="https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co5dj4.jpg" alt="Endoparacitic">
-            <div class="game-overlay">Endoparacitic</div>
+
+        <div class="section-title">Games Wishlist</div>
+        <div class="game-grid">
+            <a href="https://store.steampowered.com/app/1623730/Palworld/" target="_blank" rel="noopener noreferrer"
+                style="text-decoration: none; color: inherit;">
+                <div class="game-card">
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1623730/library_600x900_2x.jpg"
+                        alt="Palworld">
+                    <div class="game-overlay">Palworld</div>
+                </div>
+            </a>
+            <a href="https://store.steampowered.com/app/2780980/LOCKDOWN_Protocol?snr=1_25_4__318" target="_blank" rel="noopener noreferrer"
+                style="text-decoration: none; color: inherit;">
+                <div class="game-card">
+                    <img src="Files/LockdownProtocal_Cover.png"
+                        alt="LockdownProtocal">
+                    <div class="game-overlay">LockdownProtocal</div>
+                </div>
+            </a>
         </div>
     </div>
-
-    <div class="section-title">Games Wishlist</div>
-    <div class="game-grid">
-        <div class="game-card">
-            <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1623730/library_600x900_2x.jpg" alt="Palworld">
-            <div class="game-overlay">Palworld</div>
-        </div>
-    </div>
-</div>
 
     <script>
-    // --- Configuration ---
-    const birthDateString = "2009-08-04"; // Format: YYYY-MM-DD | 2009-08-04
-    // ---------------------
+        // --- Configuration ---
+        const birthDateString = "2009-08-04"; // Format: YYYY-MM-DD | 2009-08-04
+        // ---------------------
 
-    // True carousel logic
-    const pfpData = [
-        { src: "https://flairdiva.github.io/me/Files/PFPSummerVersion.png", alt: "Summer Version" },
-        { src: "https://flairdiva.github.io/me/Files/z236aQAAAAZJREFUAwDU1V2Df21tQAAAABJRU5ErkJggg.png", alt: "Default Version" },
-        { src: "https://flairdiva.github.io/me/Files/PFPColdVersion.png", alt: "Winter Version" }
-    ];
+        // True carousel logic
+        const pfpData = [
+            { src: "https://flairdiva.github.io/me/Files/PFPSummerVersion.png", alt: "Summer Version" },
+            { src: "https://flairdiva.github.io/me/Files/z236aQAAAAZJREFUAwDU1V2Df21tQAAAABJRU5ErkJggg.png", alt: "Default Version" },
+            { src: "https://flairdiva.github.io/me/Files/PFPColdVersion.png", alt: "Winter Version" }
+        ];
 
-    let centerIdx = 1; 
-    const pfpLeft = document.getElementById('pfp-left');
-    const pfpCenter = document.getElementById('pfp-center');
-    const pfpRight = document.getElementById('pfp-right');
-    const pfpContainer = document.getElementById('pfp-container');
-    const pfpNames = ["Summer Version", "Season Neutral Version", "Winter Comfort Version"];
-    const pfpPopup = document.getElementById('pfp-popup');
-    let popupTimeout = null;
+        let centerIdx = 1;
+        const pfpLeft = document.getElementById('pfp-left');
+        const pfpCenter = document.getElementById('pfp-center');
+        const pfpRight = document.getElementById('pfp-right');
+        const pfpContainer = document.getElementById('pfp-container');
+        const pfpNames = ["Summer Version", "Season Neutral Version", "Winter Comfort Version"];
+        const pfpPopup = document.getElementById('pfp-popup');
+        let popupTimeout = null;
 
-    // Age Calculation Logic
-    function calculateAge(dob) {
-        const birthDate = new Date(dob);
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-        
-        // If the current month is before the birth month, 
-        // or it's the birth month but the day hasn't passed yet, subtract 1 year.
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
+        // Age Calculation Logic
+        function calculateAge(dob) {
+            const birthDate = new Date(dob);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+
+            // If the current month is before the birth month, 
+            // or it's the birth month but the day hasn't passed yet, subtract 1 year.
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
         }
-        return age;
-    }
 
-    // Set the hover hint for the birthdate item
-    const birthdateItem = document.getElementById('birthdate-item');
-    if (birthdateItem) {
-        const age = calculateAge(birthDateString);
-        birthdateItem.setAttribute('data-hint', `Age: ${age} years old`);
-    }
-
-    function showPfpPopup(name) {
-        pfpPopup.textContent = name;
-        pfpPopup.style.display = 'block';
-        if (popupTimeout) clearTimeout(popupTimeout);
-        popupTimeout = setTimeout(() => {
-            pfpPopup.style.display = 'none';
-        }, 2000);
-    }
-
-    function updateCarousel(showPopup = false) {
-        const leftIdx = (centerIdx + pfpData.length - 1) % pfpData.length;
-        const rightIdx = (centerIdx + 1) % pfpData.length;
-
-        pfpLeft.src = pfpData[leftIdx].src;
-        pfpLeft.alt = pfpData[leftIdx].alt;
-        pfpCenter.src = pfpData[centerIdx].src;
-        pfpCenter.alt = pfpData[centerIdx].alt;
-        pfpRight.src = pfpData[rightIdx].src;
-        pfpRight.alt = pfpData[rightIdx].alt;
-
-        if (showPopup) showPfpPopup(pfpNames[centerIdx]);
-    }
-
-    updateCarousel(false);
-
-    pfpContainer.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        if (e.deltaY > 0) {
-            centerIdx = (centerIdx + 1) % pfpData.length;
-        } else {
-            centerIdx = (centerIdx - 1 + pfpData.length) % pfpData.length;
+        // Set the hover hint for the birthdate item
+        const birthdateItem = document.getElementById('birthdate-item');
+        if (birthdateItem) {
+            const age = calculateAge(birthDateString);
+            birthdateItem.setAttribute('data-hint', `Age: ${age} years old`);
         }
-        updateCarousel(true);
-    });
+
+        function showPfpPopup(name) {
+            pfpPopup.textContent = name;
+            pfpPopup.style.display = 'block';
+            if (popupTimeout) clearTimeout(popupTimeout);
+            popupTimeout = setTimeout(() => {
+                pfpPopup.style.display = 'none';
+            }, 2000);
+        }
+
+        function updateCarousel(showPopup = false) {
+            const leftIdx = (centerIdx + pfpData.length - 1) % pfpData.length;
+            const rightIdx = (centerIdx + 1) % pfpData.length;
+
+            pfpLeft.src = pfpData[leftIdx].src;
+            pfpLeft.alt = pfpData[leftIdx].alt;
+            pfpCenter.src = pfpData[centerIdx].src;
+            pfpCenter.alt = pfpData[centerIdx].alt;
+            pfpRight.src = pfpData[rightIdx].src;
+            pfpRight.alt = pfpData[rightIdx].alt;
+
+            if (showPopup) showPfpPopup(pfpNames[centerIdx]);
+        }
+
+        updateCarousel(false);
+
+        pfpContainer.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            if (e.deltaY > 0) {
+                centerIdx = (centerIdx + 1) % pfpData.length;
+            } else {
+                centerIdx = (centerIdx - 1 + pfpData.length) % pfpData.length;
+            }
+            updateCarousel(true);
+        });
+    </script>
+
+    <script>
+    // Check if the page is opened as a local file
+    if (window.location.protocol === 'file:') {
+        // Add a star to the beginning of the existing title
+        document.title = "★ " + document.title;
+    }
 </script>
 
 </body>
+
 </html>

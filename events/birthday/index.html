@@ -5,7 +5,8 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://flairdiva.github.io/me/events/birthday/">
     <meta property="og:title" content="Inventation | My Birthday Event">
-    <meta property="og:description" content="I am turning 17 on August 4th, and I always like to host a little party for my friends/community members!">
+    <meta property="og:description"
+        content="I am turning 17 on August 4th, and I always like to host a little party for my friends/community members!">
     <meta property="og:image" content="https://flairdiva.github.io/me/events/birthday/files/Header.png">
 
     <meta name="theme-color" content="#ff85a2">
@@ -27,13 +28,31 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             display: flex;
-            flex-direction: column; /* This forces children to stack vertically */
-            align-items: center;    /* Keeps them centered horizontally */
-            gap: 20px;             /* Adds a nice space between the two cards */
+            flex-direction: column;
+            /* This forces children to stack vertically */
+            align-items: center;
+            /* Keeps them centered horizontally */
+            gap: 20px;
+            /* Adds a nice space between the two cards */
             justify-content: center;
             padding: 40px 20px;
             margin: 0;
         }
+
+        .error-bar {
+            background-color: #f8d7da; /* Soft red background */
+            color: #721c24;            /* Deep red text */
+            border: 1px solid #f5c6cb;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-family: sans-serif;
+            font-size: 14px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -79,29 +98,119 @@
             z-index: 10;
         }
 
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .game-card {
+            position: relative;
+            aspect-ratio: 2 / 3;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #f0f0f0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 133, 162, 0.9);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85em;
+            font-weight: bold;
+            padding: 10px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .game-card:hover .game-overlay {
+            opacity: 1;
+        }
+
+        a {
+            color: var(--accent-pink);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .section-title {
+            text-align: left;
+            border-bottom: 2px solid var(--light-pink);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: var(--accent-pink);
+            font-weight: bold;
+        }
+
         .spacer {
-            height: 50px; /* This just forces 50px of empty air */
+            height: 50px;
+            /* This just forces 50px of empty air */
             width: 100%;
         }
 
-        h1 { margin: 10px 0; color: var(--accent-pink); font-size: 2.2em; }
-        h3 { margin: 10px 0; color: red; font-size: 2.2em;}
+        h1 {
+            margin: 10px 0;
+            color: var(--accent-pink);
+            font-size: 2.2em;
+        }
+
+        h3 {
+            margin: 10px 0;
+            color: red;
+            font-size: 2.2em;
+        }
+
+        h4 {
+            margin: 10px 0;
+            color: var(--text-main);
+            font-size: 1.1em;
+        }
     </style>
 </head>
+
 <body>
-    <div style="max-width: 800px; width: 100%; background-color: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px;">
-        <img src="files/Header.png" alt="Birthday Celebration" style="width: 100%; border-radius: 8px; margin-bottom: 20px;">
-        <h2 style="font-size: 1.5em; text-align: center;">I am turning 17 on August 4th, and I always like to host a little party for my friends/community members!</h2>
+    <!-- max-width: 800px -->
+    <div
+        style="max-width: 800px; width: 100%; background-color: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px;">
+        <img src="files/Header.png" alt="Birthday Celebration"
+            style="width: 100%; border-radius: 8px; margin-bottom: 20px;">
+        <h2 style="font-size: 1.5em; text-align: center;">I am turning 17 on August 4th, and I always like to host a
+            little party for my friends/community members!</h2>
         <div class="stats-grid">
             <div class="stat-item">Exact Event Date: Yet Unknown</div>
             <div class="stat-item">Event Location: Event Game (will be announced later)</div>
+            <div class="stat-item">Dress code: Not Really but Party Fits are allowed (just be youreself)</div>
+            <div class="stat-item">Do i need a present?: No, but if you want to</div>
             <!-- <div class="stat-item" style="grid-column: span 2;">FULLSPAN</div> -->
         </div>
     </div>
 
-    <div style="max-width: 800px; width: 100%; background-color: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px;">
+    <div
+        style="max-width: 800px; width: 100%; background-color: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px;">
         <h1 style="text-align: center;">Live Countdown</h1>
-        <div id="countdown" style="display: flex; justify-content: center; gap: 20px; font-size: 1.5em; font-weight: bold; color: var(--accent-pink);">
+        <div id="countdown"
+            style="display: flex; justify-content: center; gap: 20px; font-size: 1.5em; font-weight: bold; color: var(--accent-pink);">
             <div><span id="days">0</span> Days</div>
             <div><span id="hours">0</span> Hours</div>
             <div><span id="minutes">0</span> Minutes</div>
@@ -109,10 +218,42 @@
         </div>
     </div>
 
-    <div style="max-width: 800px; width: 100%; background-color: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px;">
-        <h1 style="text-align: center;">Present ideas (OPTIONAL)</h1>
-        <h2 style="text-align: center; font-size: 0.9em;">youre not required to give me anything but if you want feel free to choose something from my wishlist</h2>
-        <h3 style="text-align: center; font-size: 1.1em;">PLEASE DISCUSS IN THE DISCORD TO PREVENT CONFLICTS</h3>
+    <div
+        style="max-width: 800px; width: 100%; background-color: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px;">
+        <img src="files/Shedule.png" alt="Birthday Celebration"
+            style="width: 100%; border-radius: 8px; margin-bottom: 20px;">
+        <h4>[Intro]        ●  i will give a short speech</h4>
+        <h4>[Review]       ●  i will show pictures & memories of this year</h4>
+        <h4>[Cake]         ●  Special Event</h4>
+        <h4>[Kahoot]       ●  yes a kahoot abt me, my friends and my work :P</h4>
+    </div>
+
+    <div
+        style="max-width: 600px; width: 100%; background-color: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px;">
+        <h1 style="text-align: center;">No Present?</h1>
+        <h2 style="text-align: center; font-size: 0.9em;">youre not required to give me anything but if you want, feel
+            free to choose something from my wishlist</h2>
+        <div class="error-bar">
+            <i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i>
+            IF YOU WISH TO GIVE A PRESENT, PLEASE DISCUSS IT IN THE DISCORD WITH OTHER MEMBERS TO PREVENT CONFLICTS</div>
+        <div class="section-title">Games Wishlist</div>
+        <div class="game-grid">
+            <a href="https://store.steampowered.com/app/1623730/Palworld/" target="_blank" rel="noopener noreferrer"
+                style="text-decoration: none; color: inherit;">
+                <div class="game-card">
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1623730/library_600x900_2x.jpg"
+                        alt="Palworld">
+                    <div class="game-overlay">Palworld</div>
+                </div>
+            </a>
+            <a href="https://store.steampowered.com/app/2780980/LOCKDOWN_Protocol?snr=1_25_4__318" target="_blank"
+                rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+                <div class="game-card">
+                    <img src="../../Files/LockdownProtocal_Cover.png" alt="LockdownProtocal">
+                    <div class="game-overlay">LockdownProtocal</div>
+                </div>
+            </a>
+        </div>
     </div>
 </body>
 

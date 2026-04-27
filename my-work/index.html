@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,7 +39,8 @@
         [data-lyket-type] {
             margin-top: 20px;
             display: flex;
-            justify-content: flex-start; /* Aligns button to the left */
+            justify-content: flex-start;
+            /* Aligns button to the left */
         }
 
         /* Optional: Make the button background match your light pink tags */
@@ -108,7 +110,7 @@
             border-radius: 15px;
             margin-bottom: 15px;
             display: block;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
 
         .work-info {
@@ -124,8 +126,10 @@
         }
 
         .error-bar {
-            background-color: #f8d7da; /* Soft red background */
-            color: #721c24;            /* Deep red text */
+            background-color: #f8d7da;
+            /* Soft red background */
+            color: #721c24;
+            /* Deep red text */
             border: 1px solid #f5c6cb;
             padding: 12px 20px;
             border-radius: 4px;
@@ -134,7 +138,7 @@
             margin: 10px 0;
             display: flex;
             align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .tag {
@@ -175,148 +179,146 @@
         }
 
         .winner-highlight {
-        background: var(--light-pink) !important;
-        border-color: var(--accent-pink) !important;
-        position: relative;
-    }
-    .winner-highlight::after {
-        content: '🏆';
-        position: absolute;
-        left: -15px;
-        top: -15px;
-        font-size: 1.5em;
-    }
+            background: var(--light-pink) !important;
+            border-color: var(--accent-pink) !important;
+            position: relative;
+        }
 
-        .social-links a:hover { transform: translateY(-3px); }
+        .winner-highlight::after {
+            content: '🏆';
+            position: absolute;
+            left: -15px;
+            top: -15px;
+            font-size: 1.5em;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+        }
     </style>
-    <script src="https://unpkg.com/@lyket/widget@latest/dist/lyket.js?apiKey=pt_798c94e7a2d8bb1643bb2f071cd997"></script>
+    <script
+        src="https://unpkg.com/@lyket/widget@latest/dist/lyket.js?apiKey=pt_798c94e7a2d8bb1643bb2f071cd997"></script>
 </head>
+
 <body>
-<div class="container">
-    <!-- <div class="error-bar">Sorry for the outages</div> -->
-    <div class="header">
-        <a href="https://flairdiva.github.io/me/" class="btn-back"><i class="fas fa-arrow-left"></i> Back to Profile</a>
-        <h1>My Activity & Creations</h1>
-        <p>A collection of my latest drawings and projects.</p>
-    </div>
-<!-- ADD BELLOW -->
-
-    
-<div class="work-item activity-post">
-        <span class="work-date">April 26, 2026</span>
-        
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
-            <div style="background: var(--light-pink); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-gamepad" style="color: var(--accent-pink); font-size: 1.2em;"></i>
-            </div>
-            <div>
-                <h2 class="work-title" style="margin: 0; font-size: 1.2em;">Activity Update!</h2>
-                <span style="font-size: 0.85em; opacity: 0.7;">FlairDiva is now playing <strong>Roblox</strong></span>
-            </div>
+    <div class="container">
+        <!-- <div class="error-bar">Sorry for the outages</div> -->
+        <div class="header">
+            <a href="https://flairdiva.github.io/me/" class="btn-back"><i class="fas fa-arrow-left"></i> Back to
+                Profile</a>
+            <h1>My Activity & Creations</h1>
+            <p>A collection of my latest drawings and projects.</p>
         </div>
+        <!-- ADD BELLOW -->
 
-        <div style="background: #fdf2f4; border-radius: 12px; padding: 10px; display: flex; gap: 15px; align-items: center; border: 1px dashed var(--accent-pink);">
-            <img src="https://tr.rbxcdn.com/180DAY-061f9e96fd2c7397ce089c3706603809/256/256/Image/Webp/noFilter" alt="Activity" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
-            <div class="work-info" style="font-size: 0.9em;">
-                <strong>into the abyss</strong>
+
+        <div class="work-item activity-post">
+            <span class="work-date">April 26, 2026</span>
+
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                <div
+                    style="background: var(--light-pink); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-gamepad" style="color: var(--accent-pink); font-size: 1.2em;"></i>
+                </div>
+                <div>
+                    <h2 class="work-title" style="margin: 0; font-size: 1.2em;">Activity Update!</h2>
+                    <span style="font-size: 0.85em; opacity: 0.7;">FlairDiva is now playing
+                        <strong>Roblox</strong></span>
+                </div>
             </div>
-        </div>
 
-        <div class="work-tags">
-            <span class="tag">#Event</span>
-            <span class="tag">#Gaming</span>
-        </div>
+            <div
+                style="background: #fdf2f4; border-radius: 12px; padding: 10px; display: flex; gap: 15px; align-items: center; border: 1px dashed var(--accent-pink);">
+                <img src="https://tr.rbxcdn.com/180DAY-061f9e96fd2c7397ce089c3706603809/256/256/Image/Webp/noFilter"
+                    alt="Activity" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+                <div class="work-info" style="font-size: 0.9em;">
+                    <strong>into the abyss</strong>
+                </div>
+            </div>
 
-        <!-- <div 
+            <div class="work-tags">
+                <span class="tag">#Event</span>
+                <span class="tag">#Gaming</span>
+            </div>
+
+            <!-- <div 
             data-lyket-type="like" 
             data-lyket-id="activity-into-the-Abyss-27-4-2026" 
             data-lyket-namespace="Posts"
             data-lyket-color-primary="#ff85a2"
         ></div> -->
-    </div>
-
- 
-    <div class="work-item">
-        <span class="work-date">April 23, 2026 | 18:22</span>
-        <h2 class="work-title">maintenance_team (an artwork for the iifpp)</h2>
-        <img src="https://flairdiva.github.io/me/my-work/Files/maintenance_team.png" alt="Work Image" class="work-image">
-        <div class="work-info">
-            I made this banner for the maintenance in the team menu of the iifpp,
-            Boddy's Themplate Creddits: angellunablack
         </div>
-        <div class="work-tags">
-            <span class="tag">#Art</span>
-            <span class="tag">#IIFPP</span>
-        </div>
-        <div 
-            data-lyket-type="like"
-            data-lyket-id="maintenance-team-2026" 
-            data-lyket-namespace="Posts"
-            data-lyket-color-primary="#ff85a2"
-        ></div>
-    </div>
-    
-    <div class="work-item">
-        <span class="work-date">April 23, 2026 | 13:51</span>
-        <h2 class="work-title">The Administration (an artwork for the iifpp)</h2>
-        <img src="https://flairdiva.github.io/me/my-work/Files/The_Administration_Filtered.png" alt="Work Image" class="work-image">
-        <div class="work-info">
-            I made this banner for the Administration in the team menu of the iifpp,
-            Boddy's Themplate Creddits: Isabelle_Bednarczyck
-        </div>
-        <div class="work-tags">
-            <span class="tag">#Art</span>
-            <span class="tag">#IIFPP</span>
-        </div>
-        <div 
-            data-lyket-type="like" 
-            data-lyket-id="The-Administration-2026" 
-            data-lyket-namespace="Posts"
-            data-lyket-color-primary="#ff85a2"
-        ></div>
-    </div>
-    
-    <div class="work-item">
-        <span class="work-date">April 22, 2026 | 17:18</span>
-        <h2 class="work-title">Fso Artwork</h2>
-        <img src="https://flairdiva.github.io/me/my-work/Files/Artwork_fsobanner.png" alt="Work Image" class="work-image">
-        <div class="work-info">
-            I made this banner for the fso in the team menu of the iifpp,
-            Boddy's Themplate Creddits: Peter the Creative ✦
-        </div>
-        <div class="work-tags">
-            <span class="tag">#Art</span>
-            <span class="tag">#IIFPP</span>
-        </div>
-        <div 
-            data-lyket-type="like" 
-            data-lyket-id="Fso-Artwork-2026" 
-            data-lyket-namespace="Posts"
-            data-lyket-color-primary="#ff85a2"
-        ></div>
-    </div>
-    
-    <div class="work-item">
-        <span class="work-date">April 21, 2026</span>
-        <h2 class="work-title">i created this portifolio</h2>
-        <img src="https://flairdiva.github.io/me/my-work/Files/Banner215125.png" alt="Work Image" class="work-image">
-        <div class="work-info">
-            so new ppl can learn about me without me heaving to explain it all :P
-        </div>
-        <div class="work-tags">
-            <span class="tag">#HTML</span>
-            <span class="tag">#News</span>
-        </div>
-        <div 
-            data-lyket-type="like" 
-            data-lyket-id="Portfolio-2026" 
-            data-lyket-namespace="Posts"
-            data-lyket-color-primary="#ff85a2"
-        ></div>
-    </div>
 
 
-    <!-- 
+        <div class="work-item">
+            <span class="work-date">April 23, 2026 | 18:22</span>
+            <h2 class="work-title">maintenance_team (an artwork for the iifpp)</h2>
+            <img src="https://flairdiva.github.io/me/my-work/Files/maintenance_team.png" alt="Work Image"
+                class="work-image">
+            <div class="work-info">
+                I made this banner for the maintenance in the team menu of the iifpp,
+                Boddy's Themplate Creddits: angellunablack
+            </div>
+            <div class="work-tags">
+                <span class="tag">#Art</span>
+                <span class="tag">#IIFPP</span>
+            </div>
+            <div data-lyket-type="like" data-lyket-id="maintenance-team-2026" data-lyket-namespace="Posts"
+                data-lyket-color-primary="#ff85a2"></div>
+        </div>
+
+        <div class="work-item">
+            <span class="work-date">April 23, 2026 | 13:51</span>
+            <h2 class="work-title">The Administration (an artwork for the iifpp)</h2>
+            <img src="https://flairdiva.github.io/me/my-work/Files/The_Administration_Filtered.png" alt="Work Image"
+                class="work-image">
+            <div class="work-info">
+                I made this banner for the Administration in the team menu of the iifpp,
+                Boddy's Themplate Creddits: Isabelle_Bednarczyck
+            </div>
+            <div class="work-tags">
+                <span class="tag">#Art</span>
+                <span class="tag">#IIFPP</span>
+            </div>
+            <div data-lyket-type="like" data-lyket-id="The-Administration-2026" data-lyket-namespace="Posts"
+                data-lyket-color-primary="#ff85a2"></div>
+        </div>
+
+        <div class="work-item">
+            <span class="work-date">April 22, 2026 | 17:18</span>
+            <h2 class="work-title">Fso Artwork</h2>
+            <img src="https://flairdiva.github.io/me/my-work/Files/Artwork_fsobanner.png" alt="Work Image"
+                class="work-image">
+            <div class="work-info">
+                I made this banner for the fso in the team menu of the iifpp,
+                Boddy's Themplate Creddits: Peter the Creative ✦
+            </div>
+            <div class="work-tags">
+                <span class="tag">#Art</span>
+                <span class="tag">#IIFPP</span>
+            </div>
+            <div data-lyket-type="like" data-lyket-id="Fso-Artwork-2026" data-lyket-namespace="Posts"
+                data-lyket-color-primary="#ff85a2"></div>
+        </div>
+
+        <div class="work-item">
+            <span class="work-date">April 21, 2026</span>
+            <h2 class="work-title">i created this portifolio</h2>
+            <img src="https://flairdiva.github.io/me/my-work/Files/Banner215125.png" alt="Work Image"
+                class="work-image">
+            <div class="work-info">
+                so new ppl can learn about me without me heaving to explain it all :P
+            </div>
+            <div class="work-tags">
+                <span class="tag">#HTML</span>
+                <span class="tag">#News</span>
+            </div>
+            <div data-lyket-type="like" data-lyket-id="Portfolio-2026" data-lyket-namespace="Posts"
+                data-lyket-color-primary="#ff85a2"></div>
+        </div>
+
+
+        <!-- 
     Regular Themplates
 
 
@@ -444,17 +446,29 @@
 
     
     -->
-    <div class="footer">
-        <div class="social-links">
-            <a href="https://discord.gg/nUtvz4kK5x" target="_blank"><i class="fab fa-discord"></i></a>
-            <a href="https://www.roblox.com/users/3969064026/profile" target="_blank">
-                <img src="https://flairdiva.github.io/me/Files/CustomRobloxIcon.png" class="roblox-icon" alt="Roblox">
-            </a>
-            <a href="https://steamcommunity.com/profiles/76561199861712823/" target="_blank"><i class="fab fa-steam"></i></a>
-            <a href="https://github.com/flairdiva" target="_blank"><i class="fab fa-github"></i></a>
+        <div class="footer">
+            <div class="social-links">
+                <a href="https://discord.gg/nUtvz4kK5x" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="https://www.roblox.com/users/3969064026/profile" target="_blank">
+                    <img src="https://flairdiva.github.io/me/Files/CustomRobloxIcon.png" class="roblox-icon"
+                        alt="Roblox">
+                </a>
+                <a href="https://steamcommunity.com/profiles/76561199861712823/" target="_blank"><i
+                        class="fab fa-steam"></i></a>
+                <a href="https://github.com/flairdiva" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
         </div>
     </div>
-</div>
+
+    <script>
+        // Check if the page is opened as a local file
+        if (window.location.protocol === 'file:') {
+            // Add a star to the beginning of the existing title
+            document.title = "★ " + document.title;
+        }
+    </script>
+
 
 </body>
+
 </html>
