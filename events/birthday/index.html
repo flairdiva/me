@@ -87,3 +87,11 @@
         <!-- <div class="stat-item" style="grid-column: span 2;">FULLSPAN</div> -->
     </div>
 </div>
+
+<script>
+    // Check if the page is opened as a local file
+    if (window.location.protocol === 'file:') {
+        // Add a star to the beginning of the existing title
+        document.title = "★ " + document.title;
+    }
+</script>
