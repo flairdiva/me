@@ -27,6 +27,9 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             display: flex;
+            flex-direction: column; /* This forces children to stack vertically */
+            align-items: center;    /* Keeps them centered horizontally */
+            gap: 20px;             /* Adds a nice space between the two cards */
             justify-content: center;
             padding: 40px 20px;
             margin: 0;
@@ -75,19 +78,72 @@
             border-top-color: var(--text-main);
             z-index: 10;
         }
+
+        .spacer {
+            height: 50px; /* This just forces 50px of empty air */
+            width: 100%;
+        }
+
+        h1 { margin: 10px 0; color: var(--accent-pink); font-size: 2.2em; }
+        h3 { margin: 10px 0; color: red; font-size: 2.2em;}
     </style>
 </head>
 <body>
     <div style="max-width: 800px; width: 100%; background-color: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px;">
         <img src="files/Header.png" alt="Birthday Celebration" style="width: 100%; border-radius: 8px; margin-bottom: 20px;">
-        <h1 style="font-size: 1.5em; text-align: center;">I am turning 17 on August 4th, and I always like to host a little party for my friends/community members!</h1>
+        <h2 style="font-size: 1.5em; text-align: center;">I am turning 17 on August 4th, and I always like to host a little party for my friends/community members!</h2>
         <div class="stats-grid">
-        <div class="stat-item">Event Date: Yet Unknown</div>
-        <div class="stat-item">Event Location: Yet Unknown</div>
-        <!-- <div class="stat-item" style="grid-column: span 2;">FULLSPAN</div> -->
+            <div class="stat-item">Exact Event Date: Yet Unknown</div>
+            <div class="stat-item">Event Location: Event Game (will be announced later)</div>
+            <!-- <div class="stat-item" style="grid-column: span 2;">FULLSPAN</div> -->
+        </div>
     </div>
-</div>
 
+    <div style="max-width: 800px; width: 100%; background-color: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px;">
+        <h1 style="text-align: center;">Live Countdown</h1>
+        <div id="countdown" style="display: flex; justify-content: center; gap: 20px; font-size: 1.5em; font-weight: bold; color: var(--accent-pink);">
+            <div><span id="days">0</span> Days</div>
+            <div><span id="hours">0</span> Hours</div>
+            <div><span id="minutes">0</span> Minutes</div>
+            <div><span id="seconds">0</span> Seconds</div>
+        </div>
+    </div>
+
+    <div style="max-width: 800px; width: 100%; background-color: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px;">
+        <h1 style="text-align: center;">Present ideas (OPTIONAL)</h1>
+        <h2 style="text-align: center; font-size: 0.9em;">youre not required to give me anything but if you want feel free to choose something from my wishlist</h2>
+        <h3 style="text-align: center; font-size: 1.1em;">PLEASE DISCUSS IN THE DISCORD TO PREVENT CONFLICTS</h3>
+    </div>
+</body>
+
+<script>
+    // Set the target date for the countdown (August 4th, 2026 at 00:00:00)
+    const targetDate = new Date('2026-08-04T00:00:00').getTime();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance < 0) {
+            document.getElementById('countdown').innerHTML = "The event has started!";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('days').textContent = days;
+        document.getElementById('hours').textContent = hours;
+        document.getElementById('minutes').textContent = minutes;
+        document.getElementById('seconds').textContent = seconds;
+    }
+
+    // Update the countdown every second
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // Initial call to display immediately
+</script>
 <script>
     // Check if the page is opened as a local file
     if (window.location.protocol === 'file:') {
