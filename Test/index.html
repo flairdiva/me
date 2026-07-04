@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whitelisted Discord Page</title>
+    <title>Server Locked Page</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
         .hidden { display: none; }
@@ -14,68 +14,66 @@
 
     <div id="login-gate">
         <h1>Restricted Access</h1>
-        <p>You must log in with Discord to verify your identity.</p>
-        <a id="login-btn" class="btn" href="https://discord.com/oauth2/authorize?client_id=1523084437372534956&response_type=token&redirect_uri=https%3A%2F%2Fflairdiva.github.io%2Fme%2FTest%2F&scope=identify">
+        <p>You must log in with Discord to verify you are a member of our server.</p>
+        <a id="login-btn" class="btn" href="https://discord.com/oauth2/authorize?client_id=1523084437372534956&redirect_uri=https%3A%2F%2Fflairdiva.github.io%2Fme%2FTest%2F&response_type=token&scope=identify%20guilds">
             Login with Discord
         </a>
     </div>
 
     <div id="secret-content" class="hidden">
-        <h1>Welcome to the Secret Club! 🎉</h1>
-        <p>Your Discord ID is whitelisted. You can see this content now.</p>
+        <h1>Welcome! Guild Member 🎉</h1>
+        <p>You have access because you are in the required Discord server.</p>
     </div>
 
     <div id="error-gate" class="hidden">
         <h1>Access Denied</h1>
-        <p>Sorry, your Discord ID is not on the whitelist.</p>
+        <p>Sorry, you are not a member of the required Discord server.</p>
     </div>
 
     <script>
         // --- CONFIGURATION ---
-        // Put the allowed Discord User IDs here
-        const WHITELIST = ['123456789012345678', '987654321098765432']; 
+        // Replace this with your Discord Server (Guild) ID
+        const TARGET_GUILD_ID = '1523092241504272445'; 
 
-        // Function to extract the access token from the URL hash after Discord login
         function getAccessToken() {
-    // Check if there is a hash in the URL
-    console.log("Current URL Hash:", window.location.hash); 
-    
-    if (!window.location.hash) return null;
-    
-    const fragment = new URLSearchParams(window.location.hash.slice(1));
-    return fragment.get('access_token');
-}
+            if (!window.location.hash) return null;
+            const fragment = new URLSearchParams(window.location.hash.slice(1));
+            return fragment.get('access_token');
+        }
 
         async function verifyUser() {
             const token = getAccessToken();
-            if (!token) return; // User hasn't logged in yet
+            if (!token) return;
 
-            // Hide the login button while verifying
             document.getElementById('login-gate').classList.add('hidden');
 
             try {
-                // Fetch user data from Discord directly from the browser
-                const response = await fetch('https://discord.com/api/v10/users/@me', {
+                // Fetch the list of servers the logged-in user is currently in
+                const response = await fetch('https://discord.com/api/v10/users/@me/guilds', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                const userData = await response.json();
+                const guilds = await response.json();
 
-                // Check if the user's ID is in the whitelist
-                if (WHITELIST.includes(userData.id)) {
-                    // Show secret content
+                // If Discord returns an error structure instead of an array
+                if (!Array.isArray(guilds)) {
+                    throw new Error("Failed to fetch guilds list.");
+                }
+
+                // Check if any of the user's servers match your target Server ID
+                const isMember = guilds.some(guild => guild.id === TARGET_GUILD_ID);
+
+                if (isMember) {
                     document.getElementById('secret-content').classList.remove('hidden');
                 } else {
-                    // Show access denied
                     document.getElementById('error-gate').classList.remove('hidden');
                 }
             } catch (error) {
                 console.error("Verification failed:", error);
-                alert("Error verifying Discord account.");
+                alert("Error verifying server membership.");
                 document.getElementById('login-gate').classList.remove('hidden');
             }
         }
 
-        // Run the check when the page loads
         window.onload = verifyUser;
     </script>
 </body>
