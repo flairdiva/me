@@ -37,9 +37,14 @@
 
         // Function to extract the access token from the URL hash after Discord login
         function getAccessToken() {
-            const fragment = new URLSearchParams(window.location.hash.slice(1));
-            return fragment.get('access_token');
-        }
+    // Check if there is a hash in the URL
+    console.log("Current URL Hash:", window.location.hash); 
+    
+    if (!window.location.hash) return null;
+    
+    const fragment = new URLSearchParams(window.location.hash.slice(1));
+    return fragment.get('access_token');
+}
 
         async function verifyUser() {
             const token = getAccessToken();
