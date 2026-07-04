@@ -1,3 +1,4 @@
+<!-- Version 0.0.1 -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,7 +21,6 @@
 
     <title>Flair Diva | Personal Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         :root {
             --bg-color: #fffafa;
@@ -55,6 +55,7 @@
 
         .profile-section {
             position: relative;
+            /* This is the anchor for the popup */
             height: 180px;
             margin-bottom: 10px;
             display: flex;
@@ -64,25 +65,34 @@
 
         #pfp-popup {
             position: absolute;
+            /* Move it up! 15px from the bottom of the profile-section 
+       places it right at the base of the center circle */
             bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 100;
+            /* High z-index so it stays on top of everything */
+
+            /* Styling */
             margin: 0;
             font-size: 1em;
+            /* Slightly smaller to look cleaner as a tag */
             color: var(--accent-pink);
             font-weight: bold;
             background: var(--light-pink);
             border-radius: 20px;
+            /* Rounder edges for a "tag" look */
             padding: 4px 14px;
             width: max-content;
             text-align: center;
             box-shadow: 0 4px 10px rgba(255, 133, 162, 0.3);
             pointer-events: none;
+            /* Prevents the popup from blocking mouse/scroll events */
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.2s ease, visibility 0.2s ease;
         }
+
 
         .pfp-container {
             display: flex;
@@ -122,6 +132,7 @@
             transform: scale(0.75);
         }
 
+        /* Hide images not in use for carousel effect */
         .pfp-hidden {
             opacity: 0;
             pointer-events: none;
@@ -200,6 +211,7 @@
                 opacity: 0;
                 transform: translateX(-50%) translateY(4px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(-50%) translateY(0);
@@ -235,6 +247,7 @@
         .social-links img.roblox-icon {
             width: 28px;
             height: 28px;
+            /* filter: sepia(1) saturate(5) hue-rotate(310deg); /* Adjusts the PNG to match your pink theme */
         }
 
         .social-links a:hover {
@@ -346,99 +359,10 @@
         a:hover {
             text-decoration: underline;
         }
-
-        /* Clock / Timezone Layout Styles */
-        .timezone-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding: 5px 10px;
-            background: #fffcfc;
-            border-radius: 20px;
-            border: 1px solid var(--light-pink);
-        }
-
-        .timezone-info {
-            text-align: left;
-        }
-
-        .timezone-info h2 {
-            margin: 0;
-            font-size: 1.3em;
-            color: var(--accent-pink);
-        }
-
-        .timezone-sub {
-            font-size: 0.8em;
-            color: #d1a7b0;
-        }
-
-        .hybrid-clock {
-            position: relative;
-            width: 70px;
-            height: 70px;
-            border: 2px solid var(--light-pink);
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(255, 133, 162, 0.05);
-        }
-
-        .hybrid-hand {
-            position: absolute;
-            width: 50%;
-            top: 50%;
-            transform-origin: 100%;
-            height: 2px;
-            border-radius: 2px;
-        }
-
-        .h-hour {
-            width: 25%;
-            left: 25%;
-            background: var(--text-main);
-            height: 3px;
-        }
-
-        .h-min {
-            width: 35%;
-            left: 15%;
-            background: #8a8a8a;
-        }
-
-        .h-sec {
-            width: 38%;
-            left: 12%;
-            background: var(--accent-pink);
-            height: 1px;
-        }
-
-        .hybrid-digital {
-            position: absolute;
-            font-size: 0.8em;
-            font-weight: bold;
-            color: var(--text-main);
-            z-index: 5;
-            background: rgba(255, 254, 254, 0.85);
-            padding: 2px 4px;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-
-        .schedule-box h1 {
-            font-size: 1.6em;
-            margin: 15px 0 10px 0;
-            text-align: left;
-        }
     </style>
 </head>
 
-<body>
+<body> 
 
     <div class="container">
         <div class="profile-section">
@@ -449,6 +373,7 @@
             </div>
             <div id="pfp-popup"></div>
         </div>
+        <!-- .pfp-hint removed as requested -->
 
         <h1>Flair Diva</h1>
 
@@ -461,6 +386,7 @@
             <div class="stat-item" id="birthdate-item" data-hint="">Birthdate: 4 August 2009</div>
             <div class="stat-item">Gender: Female</div>
             <div class="stat-item">RS: single (not looking)</div>
+            <!-- <div class="stat-item" style="grid-column: span 2;">Empty</div> -->
         </div>
 
         <div class="bio">
@@ -471,6 +397,8 @@
             <small><em>Note: I often don't want to share media due to past and mutual bad experiences.</em></small>
         </div>
 
+        
+
         <div class="disclaimer">
             This is a personal portfolio page for Flair Diva. It is not affiliated with Discord, Roblox, Steam, or
             GitHub. The links below are personal profiles only.
@@ -480,82 +408,24 @@
             <a href="https://www.roblox.com/users/3969064026/profile" target="_blank" rel="noopener noreferrer" title="Roblox">
                 <img src="https://flairdiva.github.io/me/Files/CustomRobloxIcon.png" class="roblox-icon" alt="Roblox">
             </a>
-            <a href="https://steamcommunity.com/profiles/76561199861712823/" target="_blank" rel="noopener noreferrer" title="Steam">
-                <i class="fab fa-steam"></i>
-            </a>
-            <a href="https://github.com/flairdiva" target="_blank" rel="noopener noreferrer" title="GitHub">
-                <i class="fab fa-github"></i>
-            </a>
+            <a href="https://steamcommunity.com/profiles/76561199861712823/" target="_blank" rel="noopener noreferrer" title="Steam"><i
+                    class="fab fa-steam"></i></a>
+            <a href="https://github.com/flairdiva" target="_blank" rel="noopener noreferrer" title="GitHub"><i class="fab fa-github"></i></a>
         </div>
 
         <a href="my-work/index.html" class="btn-work">My Activity</a>
     </div>
 
     <div class="container">
-        <h1>Timezone</h1>
-        <div class="timezone-row">
-            <div class="timezone-info">
-                <h2>My Time is</h2>
-                <div class="timezone-sub" id="tz-string">CET / CEST</div>
-            </div>
-
-            <div class="hybrid-clock">
-                <div class="hybrid-digital" id="mini-digital">00:00</div>
-                <div class="hybrid-hand h-hour" id="h-hour"></div>
-                <div class="hybrid-hand h-min" id="h-min"></div>
-                <div class="hybrid-hand h-sec" id="h-sec"></div>
-            </div>
-        </div>
-
-        <div class="schedule-box">
-            <h1>My Schedule</h1>
-            <iframe src="https://teamup.com/ksuiauf8q79824qar1?tz=Europe%2FAmsterdam&showHeader=0&showProfileAndInfo=0&disableSidepanel=1&showViewSelector=0&showMenu=0&showViewHeader=1&showAgendaDetails=0&showDateControls=0&showDateRange=0" style="width: 100%; height: 300px" loading="lazy" frameborder="0"></iframe>
-        </div>
+        <h1>My Shedule</h1>
+        <iframe src="https://teamup.com/ksuiauf8q79824qar1?tz=Calendar%20default&showHeader=0&showProfileAndInfo=0&disableSidepanel=1&showViewSelector=0&showMenu=0&showViewHeader=1&showAgendaDetails=0&showDateControls=0&showDateRange=0" style="width: 100%; height: 300px" loading="lazy" frameborder="0"></iframe>
     </div>
-
     <script>
-        // --- Clock Logic ---
-        const hHour = document.getElementById('h-hour');
-        const hMin = document.getElementById('h-min');
-        const hSec = document.getElementById('h-sec');
-        const miniDigital = document.getElementById('mini-digital');
-        const tzString = document.getElementById('tz-string');
+        // --- Configuration ---
+        const birthDateString = "2009-08-04"; // Format: YYYY-MM-DD | 2009-08-04
+        // ---------------------
 
-        function updateClock() {
-            const now = new Date();
-            const amsTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Amsterdam" }));
-
-            const hours = amsTime.getHours();
-            const minutes = amsTime.getMinutes();
-            const seconds = amsTime.getSeconds();
-
-            const hrDeg = ((hours / 12) * 360) + ((minutes / 60) * 30) + 90;
-            const minDeg = ((minutes / 60) * 360) + ((seconds / 60) * 6) + 90;
-            const secDeg = ((seconds / 60) * 360) + 90;
-
-            hHour.style.transform = `rotate(${hrDeg}deg)`;
-            hMin.style.transform = `rotate(${minDeg}deg)`;
-            hSec.style.transform = `rotate(${secDeg}deg)`;
-
-            const displayHours = String(hours).padStart(2, '0');
-            const displayMins = String(minutes).padStart(2, '0');
-            miniDigital.textContent = `${displayHours}:${displayMins}`;
-
-            const baseStr = now.toLocaleString("en-US", { timeZone: "Europe/Amsterdam", timeZoneName: "short" });
-            if (baseStr.includes("GMT+2") || baseStr.includes("CEST")) {
-                tzString.textContent = "Amsterdam (Summer Time - CEST)";
-            } else {
-                tzString.textContent = "Amsterdam (Winter Time - CET)";
-            }
-        }
-
-        setInterval(updateClock, 1000);
-        updateClock();
-
-
-        // --- PFP Carousel & Age Logic ---
-        const birthDateString = "2009-08-04";
-
+        // True carousel logic
         const pfpData = [
             { src: "Files/PFPparty_version.png", alt: "Party/Special Version" },
             { src: "Files/PFPNeutral.png", alt: "Default Version" },
@@ -571,18 +441,22 @@
         const pfpPopup = document.getElementById('pfp-popup');
         let popupTimeout = null;
 
+        // Age Calculation Logic
         function calculateAge(dob) {
             const birthDate = new Date(dob);
             const today = new Date();
             let age = today.getFullYear() - birthDate.getFullYear();
             const monthDiff = today.getMonth() - birthDate.getMonth();
 
+            // If the current month is before the birth month, 
+            // or it's the birth month but the day hasn't passed yet, subtract 1 year.
             if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
                 age--;
             }
             return age;
         }
 
+        // Set the hover hint for the birthdate item
         const birthdateItem = document.getElementById('birthdate-item');
         if (birthdateItem) {
             const age = calculateAge(birthDateString);
@@ -625,13 +499,16 @@
             }
             updateCarousel(true);
         });
-
-
-        // --- Environmental Setup (Local file tag) ---
-        if (window.location.protocol === 'file:') {
-            document.title = "[LOCAL] " + document.title;
-        }
     </script>
+
+    <script>
+    // Check if the page is opened as a local file
+    if (window.location.protocol === 'file:') {
+        // Add a star to the beginning of the existing title
+        document.title = "[LOCAL] " + document.title;
+    }
+</script>
+
 </body>
 
 </html>
