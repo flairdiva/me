@@ -35,7 +35,9 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             display: flex;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             padding: 40px 20px;
             margin: 0;
         }
@@ -359,7 +361,7 @@
     </style>
 </head>
 
-<body>
+<body> 
 
     <div class="container">
         <div class="profile-section">
@@ -383,7 +385,7 @@
             <div class="stat-item" id="birthdate-item" data-hint="">Birthdate: 4 August 2009</div>
             <div class="stat-item">Gender: Female</div>
             <div class="stat-item">RS: single (not looking)</div>
-            <!-- <div class="stat-item" style="grid-column: span 2;">Sexuality: Straight</div> -->
+            <!-- <div class="stat-item" style="grid-column: span 2;">Empty</div> -->
         </div>
 
         <div class="bio">
@@ -393,6 +395,8 @@
             <br><br>
             <small><em>Note: I often don't want to share media due to past and mutual bad experiences.</em></small>
         </div>
+
+        
 
         <div class="disclaimer">
             This is a personal portfolio page for Flair Diva. It is not affiliated with Discord, Roblox, Steam, or
@@ -417,9 +421,9 @@
 
         // True carousel logic
         const pfpData = [
-            { src: "Files/PFPSummerVersion.png", alt: "Summer Version" },
-            { src: "Files/PFPNeutralVersion.png", alt: "Default Version" },
-            { src: "Files/PFPColdVersion.png", alt: "Winter Version" }
+            { src: "Files/PFPparty_version.png", alt: "Party/Special Version" },
+            { src: "Files/PFPNeutral.png", alt: "Default Version" },
+            { src: "Files/PFPSummer.png", alt: "Summer Version" }
         ];
 
         let centerIdx = 1;
@@ -427,7 +431,7 @@
         const pfpCenter = document.getElementById('pfp-center');
         const pfpRight = document.getElementById('pfp-right');
         const pfpContainer = document.getElementById('pfp-container');
-        const pfpNames = ["Summer Version", "Season Neutral Version", "Winter Comfort Version"];
+        const pfpNames = ["Party/Special Version", "Default Version", "Summer Version"];
         const pfpPopup = document.getElementById('pfp-popup');
         let popupTimeout = null;
 
