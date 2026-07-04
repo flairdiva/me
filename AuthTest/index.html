@@ -8,12 +8,22 @@
         body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
         .hidden { display: none; }
         .btn { padding: 10px 20px; background: #5865F2; color: white; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; }
+        .container {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 133, 162, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 
     <div id="login-gate">
-        <h1>Restricted Access</h1>
+        <h1>Members Only Content</h1>
         <p>You must log in with Discord to verify you are a member of our server.</p>
         <a id="login-btn" class="btn" href="https://discord.com/oauth2/authorize?client_id=1523084437372534956&redirect_uri=https%3A%2F%2Fflairdiva.github.io%2Fme%2FTest%2F&response_type=token&scope=identify%20guilds">
             Login with Discord
@@ -21,8 +31,16 @@
     </div>
 
     <div id="secret-content" class="hidden">
-        <h1>Welcome! Guild Member 🎉</h1>
-        <p>You have access because you are in the required Discord server.</p>
+        <div class="container">
+            <h1>Welcome to the Secret Content!</h1>
+            <p>Congratulations! You are a verified member of our Discord server.</p>
+            <p>Here is your exclusive content:</p>
+            <ul>
+                <li>Secret Tip #1: Always check the server rules.</li>
+                <li>Secret Tip #2: Engage with the community!</li>
+                <li>Secret Tip #3: Stay updated with announcements.</li>
+            </ul>
+        </div>
     </div>
 
     <div id="error-gate" class="hidden">
