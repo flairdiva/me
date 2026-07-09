@@ -440,213 +440,37 @@
 
 <body>
 
-    <div class="container">
-        <div class="profile-section">
-            <div class="pfp-container" id="pfp-container">
-                <img class="pfp-left" id="pfp-left" src="" alt="">
-                <img class="pfp-center" id="pfp-center" src="" alt="">
-                <img class="pfp-right" id="pfp-right" src="" alt="">
-            </div>
-            <div id="pfp-popup"></div>
-        </div>
-
-        <h1>Flair Diva</h1>
-
-        <div class="mic-status">
-            <i class="fas fa-microphone-slash"></i> <span>i don't have a working mic</span>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-item">Name: Flair Diva</div>
-            <div class="stat-item" id="birthdate-item" data-hint="">Birthdate: 4 August 2009</div>
-            <div class="stat-item">Gender: Female</div>
-            <div class="stat-item">RS: single (not looking)</div>
-        </div>
-
-        <div class="bio">
-            My hobbies include <strong>Drawing</strong> and <strong>Animal Care</strong>. I am currently a volunteer for
-            <strong>PSS</strong>.
-            My favorite color is <strong>Pink</strong>.
-            <br><br>
-            <small><em>Note: I often don't want to share media due to past and mutual bad experiences.</em></small>
-        </div>
-
-        <div class="disclaimer">
-            This is a personal portfolio page for Flair Diva. It is not affiliated with Discord, Roblox, Steam, or
-            GitHub. The links below are personal profiles only.
-        </div>
-
-        <div class="social-links">
-            <a href="https://www.roblox.com/users/3969064026/profile" target="_blank" rel="noopener noreferrer" title="Roblox">
-                <img src="https://flairdiva.github.io/me/Files/CustomRobloxIcon.png" class="roblox-icon" alt="Roblox">
-            </a>
-            <a href="https://steamcommunity.com/profiles/76561199861712823/" target="_blank" rel="noopener noreferrer" title="Steam">
-                <i class="fab fa-steam"></i>
-            </a>
-            <a href="https://github.com/flairdiva" target="_blank" rel="noopener noreferrer" title="GitHub">
-                <i class="fab fa-github"></i>
-            </a>
-        </div>
-
-        <a href="my-work/index.html" class="btn-work">My Activity</a>
-    </div>
 
     <div class="container">
-        <h1>Upcomming Events</h1>
+        <h1>Changelog</h1>
         <div class="container"; style="width: auto;background-color:#ffe6eb;">
             
-        <h1 style="font-size: 150%;">IITPP RELEASE PARTY</h1>
-        <h3 style="color: #b1b1b1;">Jul 11 2026</h3>
+        <h1 style="font-size: 150%; color: #4a4a4a;">Changelog Started</h1>
+        <h3 style="color: #b1b1b1;">09-07-2026</h3>
         </div>
 
-        <div class="container"; style="width: auto;background-color:#ffe6eb;">
-            
-        <h1 style="font-size: 150%;">my birthday</h1>
-        <h3 style="color: #b1b1b1;">Aug 4 2026</h3>
-        </div>
-    </div>
-
-    <div class="container">
-        <h1>Timezone</h1>
-        <div class="timezone-row">
-            <div class="timezone-info">
-                <h2>My Time is</h2>
-                <div class="timezone-sub" id="tz-string">CET / CEST</div>
-            </div>
-
-            <div class="hybrid-clock">
-                <div class="hybrid-digital" id="mini-digital">00:00</div>
-                <div class="hybrid-hand h-hour" id="h-hour"></div>
-                <div class="hybrid-hand h-min" id="h-min"></div>
-                <div class="hybrid-hand h-sec" id="h-sec"></div>
-            </div>
-        </div>
-
-        <div class="schedule-box">
-            <h1>My Schedule</h1>
-            <iframe src="https://teamup.com/ksuiauf8q79824qar1?tz=Europe%2FAmsterdam&showHeader=0&showProfileAndInfo=0&disableSidepanel=1&showViewSelector=0&showMenu=0&showViewHeader=1&showAgendaDetails=0&showDateControls=0&showDateRange=0" style="width: 100%; height: 300px" loading="lazy" frameborder="0"></iframe>
+        
+        
+        <div class="container"; style="width: auto;background-color:#ffe6eb;">  
+        <h1 style="font-size: 150%;">Events tab</h1>
+        <h3 style="color: #b1b1b1;">09-07-2026</h3>
+        <ul style="display: inline-block; padding: 0; list-style-position: inside; margin: 10px 0 0 0;">
+            <li>Added Events Tab to https://flairdiva.github.io/me</li>
+            <li>Added Changelog Page</li>
+            <li>Updated Sitemap.xml to contain Changelogs page</li>
+        </ul>
         </div>
     </div>
 
-    <script>
-        // --- Clock Logic ---
-        const hHour = document.getElementById('h-hour');
-        const hMin = document.getElementById('h-min');
-        const hSec = document.getElementById('h-sec');
-        const miniDigital = document.getElementById('mini-digital');
-        const tzString = document.getElementById('tz-string');
-
-        function updateClock() {
-            const now = new Date();
-            const amsTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Amsterdam" }));
-
-            const hours = amsTime.getHours();
-            const minutes = amsTime.getMinutes();
-            const seconds = amsTime.getSeconds();
-
-            const hrDeg = ((hours / 12) * 360) + ((minutes / 60) * 30) + 90;
-            const minDeg = ((minutes / 60) * 360) + ((seconds / 60) * 6) + 90;
-            const secDeg = ((seconds / 60) * 360) + 90;
-
-            hHour.style.transform = `rotate(${hrDeg}deg)`;
-            hMin.style.transform = `rotate(${minDeg}deg)`;
-            hSec.style.transform = `rotate(${secDeg}deg)`;
-
-            const displayHours = String(hours).padStart(2, '0');
-            const displayMins = String(minutes).padStart(2, '0');
-            miniDigital.textContent = `${displayHours}:${displayMins}`;
-
-            const baseStr = now.toLocaleString("en-US", { timeZone: "Europe/Amsterdam", timeZoneName: "short" });
-            if (baseStr.includes("GMT+2") || baseStr.includes("CEST")) {
-                tzString.textContent = "Amsterdam (Summer Time - CEST)";
-            } else {
-                tzString.textContent = "Amsterdam (Winter Time - CET)";
-            }
-        }
-
-        setInterval(updateClock, 1000);
-        updateClock();
-
-
-        // --- PFP Carousel & Age Logic ---
-        const birthDateString = "2009-08-04";
-
-        const pfpData = [
-            { src: "Files/PFPparty_version.png", alt: "Party/Special Version" },
-            { src: "Files/PFPNeutral.png", alt: "Default Version" },
-            { src: "Files/PFPSummer.png", alt: "Summer Version" }
-        ];
-
-        let centerIdx = 1;
-        const pfpLeft = document.getElementById('pfp-left');
-        const pfpCenter = document.getElementById('pfp-center');
-        const pfpRight = document.getElementById('pfp-right');
-        const pfpContainer = document.getElementById('pfp-container');
-        const pfpNames = ["Party/Special Version", "Default Version", "Summer Version"];
-        const pfpPopup = document.getElementById('pfp-popup');
-        let popupTimeout = null;
-
-        function calculateAge(dob) {
-            const birthDate = new Date(dob);
-            const today = new Date();
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const monthDiff = today.getMonth() - birthDate.getMonth();
-
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-            return age;
-        }
-
-        const birthdateItem = document.getElementById('birthdate-item');
-        if (birthdateItem) {
-            const age = calculateAge(birthDateString);
-            birthdateItem.setAttribute('data-hint', `Age: ${age} years old`);
-        }
-
-        function showPfpPopup(name) {
-            pfpPopup.textContent = name;
-            pfpPopup.style.visibility = 'visible';
-            pfpPopup.style.opacity = '1';
-            if (popupTimeout) clearTimeout(popupTimeout);
-            popupTimeout = setTimeout(() => {
-                pfpPopup.style.opacity = '0';
-                pfpPopup.style.visibility = 'hidden';
-            }, 2000);
-        }
-
-        function updateCarousel(showPopup = false) {
-            const leftIdx = (centerIdx + pfpData.length - 1) % pfpData.length;
-            const rightIdx = (centerIdx + 1) % pfpData.length;
-
-            pfpLeft.src = pfpData[leftIdx].src;
-            pfpLeft.alt = pfpData[leftIdx].alt;
-            pfpCenter.src = pfpData[centerIdx].src;
-            pfpCenter.alt = pfpData[centerIdx].alt;
-            pfpRight.src = pfpData[rightIdx].src;
-            pfpRight.alt = pfpData[rightIdx].alt;
-
-            if (showPopup) showPfpPopup(pfpNames[centerIdx]);
-        }
-
-        updateCarousel(false);
-
-        pfpContainer.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            if (e.deltaY > 0) {
-                centerIdx = (centerIdx + 1) % pfpData.length;
-            } else {
-                centerIdx = (centerIdx - 1 + pfpData.length) % pfpData.length;
-            }
-            updateCarousel(true);
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
         });
+    });
+</script>
 
-
-        // --- Environmental Setup (Local file tag) ---
-        if (window.location.protocol === 'file:') {
-            document.title = "[LOCAL] " + document.title;
-        }
-    </script>
 </body>
-
 </html>
