@@ -1,0 +1,241 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://flairdiva.github.io/me/events/birthday/">
+    <meta property="og:title" content="Inventation | My Birthday Event">
+    <meta property="og:description"
+        content="I am turning 17 on August 4th, and I always like to host a little party for my friends/community members!">
+    <meta property="og:image" content="https://flairdiva.github.io/me/events/birthday/files/Header.png">
+
+    <meta name="theme-color" content="#ff85a2">
+
+
+    <title>Birthday Invitation | Flair Diva</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #fffafa;
+            --card-bg: #ffffff;
+            --accent-pink: #ff85a2;
+            --light-pink: #ffe4e9;
+            --text-main: #4a4a4a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            /* This forces children to stack vertically */
+            align-items: center;
+            /* Keeps them centered horizontally */
+            gap: 20px;
+            /* Adds a nice space between the two cards */
+            justify-content: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        .error-bar {
+            background-color: #f8d7da; /* Soft red background */
+            color: #721c24;            /* Deep red text */
+            border: 1px solid #f5c6cb;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-family: sans-serif;
+            font-size: 14px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .stat-item {
+            background: var(--light-pink);
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 0.9em;
+            font-weight: 600;
+            position: relative;
+            cursor: default;
+        }
+
+        .stat-item[data-hint]:hover::after {
+            content: attr(data-hint);
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text-main);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75em;
+            font-weight: 400;
+            white-space: nowrap;
+            z-index: 10;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .stat-item[data-hint]:hover::before {
+            content: '';
+            position: absolute;
+            bottom: calc(100% + 2px);
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--text-main);
+            z-index: 10;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .game-card {
+            position: relative;
+            aspect-ratio: 2 / 3;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #f0f0f0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 133, 162, 0.9);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85em;
+            font-weight: bold;
+            padding: 10px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .game-card:hover .game-overlay {
+            opacity: 1;
+        }
+
+        a {
+            color: var(--accent-pink);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .section-title {
+            text-align: left;
+            border-bottom: 2px solid var(--light-pink);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: var(--accent-pink);
+            font-weight: bold;
+        }
+
+        .spacer {
+            height: 50px;
+            /* This just forces 50px of empty air */
+            width: 100%;
+        }
+
+        h1 {
+            margin: 10px 0;
+            color: var(--accent-pink);
+            font-size: 2.2em;
+        }
+
+        h3 {
+            margin: 10px 0;
+            color: red;
+            font-size: 2.2em;
+        }
+
+        h4 {
+            margin: 10px 0;
+            color: var(--text-main);
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- max-width: 800px -->
+    <div
+        style="max-width: 800px; width: 100%; background-color: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px;">
+        <h1 style="text-align: center;">Live Countdown</h1>
+        <div id="countdown"
+            style="display: flex; justify-content: center; gap: 20px; font-size: 1.5em; font-weight: bold; color: var(--accent-pink);">
+            <div><span id="days">0</span> Days</div>
+            <div><span id="hours">0</span> Hours</div>
+            <div><span id="minutes">0</span> Minutes</div>
+            <div><span id="seconds">0</span> Seconds</div>
+        </div>
+    </div>
+</body>
+
+<script>
+    // Set the target date for the countdown (August 4th, 2026 at 00:00:00)
+    const targetDate = new Date('2026-07-11T23:00:00').getTime();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance < 0) {
+            document.getElementById('countdown').innerHTML = "The event has started!";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('days').textContent = days;
+        document.getElementById('hours').textContent = hours;
+        document.getElementById('minutes').textContent = minutes;
+        document.getElementById('seconds').textContent = seconds;
+    }
+
+    // Update the countdown every second
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // Initial call to display immediately
+</script>
+<script>
+    // Check if the page is opened as a local file
+    if (window.location.protocol === 'file:') {
+        // Add a star to the beginning of the existing title
+        document.title = "★ " + document.title;
+    }
+</script>
