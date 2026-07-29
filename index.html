@@ -568,9 +568,9 @@
         const birthDateString = "2009-08-04";
 
         const pfpData = [
-            { src: "Files/PFPparty_version.png", alt: "Party/Special Version" },
-            { src: "Files/PFPNeutral.png", alt: "Default Version" },
-            { src: "Files/PFPSummer.png", alt: "Summer Version" }
+            { src: "Files/PFPparty_version.png", alt: "Party/Special Version", url: "./Biography/index.html" },
+            { src: "Files/PFPNeutral.png", alt: "Default Version", url: "./Biography/index.html" },
+            { src: "Files/PFPSummer.png", alt: "Summer Version", url: "./Biography/index.html" }
         ];
 
         let centerIdx = 1;
@@ -636,6 +636,21 @@
             }
             updateCarousel(true);
         });
+
+        // --- Profile Picture Redirect Logic ---
+pfpLeft.addEventListener('click', () => {
+    const leftIdx = (centerIdx + pfpData.length - 1) % pfpData.length;
+    window.location.href = pfpData[leftIdx].url;
+});
+
+pfpCenter.addEventListener('click', () => {
+    window.location.href = pfpData[centerIdx].url;
+});
+
+pfpRight.addEventListener('click', () => {
+    const rightIdx = (centerIdx + 1) % pfpData.length;
+    window.location.href = pfpData[rightIdx].url;
+});
 
 
         // --- Environmental Setup (Local file tag) ---
