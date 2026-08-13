@@ -470,7 +470,7 @@
     <div class="auth-card" id="editModeAuthCard" style="display: none;">
         <label><b>Current User:</b></label>
         <span id="loggedInUserDisplay" style="font-weight: bold; color: var(--accent-pink);"></span>
-        <button class="btn" id="logoutBtn" style="padding: 4px 12px; font-size: 0.8em; margin-left: 10px; background: #6c757d;">Switch User / Log Out</button>
+        <button class="btn" id="logoutBtn" style="padding: 4px 12px; font-size: 0.8em; margin-left: 10px; background: #6c757d;">Switch User / Log In</button>
     </div>
 
     <div id="appContent" style="display: none;">
@@ -664,6 +664,8 @@
     let isAdmin = false;
     let userCanEdit = true;
     let isEditMode = false;
+    let isProfileMode = false;
+    let profileUsername = null;
     let eventsData = [];
     let usersList = [];
     let usersDataMap = {};
@@ -710,8 +712,8 @@
         plannerTab.classList.add("active");
         usersTab.classList.remove("active");
         
-        isEditMode = editState && userCanEdit;
-        modeBtn.style.display = userCanEdit ? "inline-block" : "none";
+        isEditMode = editState && userCanEdit && !isProfileMode;
+        modeBtn.style.display = (userCanEdit && !isProfileMode) ? "inline-block" : "none";
         modeBtn.innerText = isEditMode ? "Switch to View Mode" : "Switch to Edit Mode";
 
         updateEditAuthCardVisibility();
@@ -719,6 +721,7 @@
     }
 
     function switchToUsersView() {
+        if (isProfileMode) return;
         tabUsersBtn.classList.add("active");
         tabPlannerBtn.classList.remove("active");
         usersTab.classList.add("active");
@@ -858,6 +861,8 @@
             if (snapshot.exists()) {
                 const data = snapshot.val();
                 if (String(data.pin).trim() === String(pin).trim()) {
+                    isProfileMode = false;
+                    profileUsername = null;
                     currentUser = name;
                     isAdmin = data.admin === true || data.admin === "true";
                     userCanEdit = data.canEdit !== undefined ? (data.canEdit === true || data.canEdit === "true") : true;
@@ -893,6 +898,26 @@
         });
     }
 
+    function activateProfileMode(username) {
+        isProfileMode = true;
+        profileUsername = username.toLowerCase();
+        currentUser = null;
+        userCanEdit = false;
+        isEditMode = false;
+
+        loginGate.style.display = "none";
+        appContent.style.display = "block";
+
+        tabPlannerBtn.style.display = "none";
+        tabUsersBtn.style.display = "none";
+        modeBtn.style.display = "none";
+
+        editModeAuthCard.style.display = "flex";
+        document.getElementById("loggedInUserDisplay").innerText = `PROFILE: ${profileUsername.toUpperCase()} [NOT ALLOW EDDITS]`;
+
+        switchToPlannerView(false);
+    }
+
     document.getElementById("loginBtnGate").addEventListener("click", () => {
         const name = document.getElementById("usernameInputGate").value.trim().toLowerCase();
         const pin = document.getElementById("pinInputGate").value.trim();
@@ -903,9 +928,12 @@
         const params = new URLSearchParams(window.location.search);
         const urlUser = params.get("user") || params.get("username");
         const urlPin = params.get("pin");
+        const urlProfile = params.get("profile");
 
         if (urlUser && urlPin) {
             performLogin(urlUser.trim().toLowerCase(), urlPin.trim(), document.getElementById("authStatusGate"));
+        } else if (urlProfile && urlProfile.trim()) {
+            activateProfileMode(urlProfile.trim());
         }
     });
 
@@ -914,6 +942,8 @@
         isAdmin = false;
         userCanEdit = true;
         isEditMode = false;
+        isProfileMode = false;
+        profileUsername = null;
         modeBtn.innerText = "Switch to Edit Mode";
 
         appContent.style.display = "none";
@@ -929,7 +959,9 @@
     });
 
     function updateEditAuthCardVisibility() {
-        if (isEditMode && plannerTab.classList.contains("active")) {
+        if (isProfileMode) {
+            editModeAuthCard.style.display = "flex";
+        } else if (isEditMode && plannerTab.classList.contains("active")) {
             editModeAuthCard.style.display = "flex";
         } else {
             editModeAuthCard.style.display = "none";
@@ -1136,7 +1168,7 @@
     });
 
     modeBtn.addEventListener("click", () => {
-        if (!userCanEdit) {
+        if (isProfileMode || !userCanEdit) {
             alert("You do not have permission to edit availability.");
             return;
         }
@@ -1147,7 +1179,7 @@
     });
 
     function handleMouseDown(day, hour) {
-        if (!isEditMode || !userCanEdit) return;
+        if (isProfileMode || !isEditMode || !userCanEdit) return;
         isDragging = true;
         dragDay = day;
         dragStartHour = hour;
@@ -1189,7 +1221,7 @@
     }
 
     function openModalForNew(day, start, end) {
-        if (!currentUser || !userCanEdit) {
+        if (isProfileMode || !currentUser || !userCanEdit) {
             alert("Log in with edit privileges to add blocks.");
             return;
         }
@@ -1216,6 +1248,7 @@
     };
 
     document.getElementById("saveEventBtn").addEventListener("click", () => {
+        if (isProfileMode) return;
         const id = document.getElementById("modalEventId").value;
         const day = parseInt(document.getElementById("eventDay").value);
         const reason = document.getElementById("eventReason").value || "Busy";
@@ -1267,6 +1300,7 @@
     });
 
     window.promptDelete = function() {
+        if (isProfileMode) return;
         const seriesId = document.getElementById("modalSeriesId").value;
         if (seriesId && seriesId !== "null") {
             document.getElementById("deleteModal").classList.add("active");
@@ -1280,6 +1314,7 @@
     };
 
     window.confirmDelete = function(mode) {
+        if (isProfileMode) return;
         const id = document.getElementById("modalEventId").value;
         const seriesId = document.getElementById("modalSeriesId").value;
 
@@ -1364,7 +1399,7 @@
                 <small style="color:var(--sub-text);">${formatHourLabel(item.localTimes.start)} - ${formatHourLabel(item.localTimes.end)}</small>
             `;
 
-            if (isAdmin || item.user === currentUser) {
+            if (!isProfileMode && (isAdmin || item.user === currentUser)) {
                 div.style.cursor = "pointer";
                 div.addEventListener("click", () => {
                     closeOverflowModal();
@@ -1395,17 +1430,15 @@
             dayCol.querySelectorAll('.event-block').forEach(b => b.remove());
         }
 
-        if (isEditMode && userCanEdit) {
+        if (isProfileMode) {
             viewModeFilterBar.style.display = "none";
 
             for (let d = 0; d < 7; d++) {
                 const dayCol = document.getElementById(`day-${d}`);
                 
-                // Collect all valid events for this day
                 const dayEvents = [];
                 eventsData.forEach(item => {
-                    if (!isAdmin && item.user !== currentUser) return;
-                    if (shouldRenderInCurrentWeek(item, d)) {
+                    if (item.user && item.user.toLowerCase() === profileUsername && shouldRenderInCurrentWeek(item, d)) {
                         const localTimes = getLocalDisplayTimes(item, d);
                         dayEvents.push({
                             ...item,
@@ -1416,7 +1449,6 @@
 
                 if (dayEvents.length === 0) continue;
 
-                // Group overlapping blocks
                 dayEvents.sort((a, b) => a.localTimes.start - b.localTimes.start || (b.localTimes.end - b.localTimes.start) - (a.localTimes.end - a.localTimes.start));
 
                 const groups = [];
@@ -1435,10 +1467,8 @@
                     }
                 });
 
-                // Render each cluster of overlapping events
                 groups.forEach(group => {
                     if (group.length > 3) {
-                        // Render overflow block if > 3 overlaps
                         const minStart = Math.min(...group.map(e => e.localTimes.start));
                         const maxEnd = Math.max(...group.map(e => e.localTimes.end));
 
@@ -1462,7 +1492,94 @@
 
                         dayCol.appendChild(block);
                     } else {
-                        // Divide width for 1-3 overlapping events
+                        const widthPercent = 100 / group.length;
+
+                        group.forEach((item, idx) => {
+                            const block = document.createElement("div");
+                            block.className = "event-block";
+
+                            const topPx = item.localTimes.start * 40;
+                            const heightPx = (item.localTimes.end - item.localTimes.start) * 40;
+
+                            block.style.top = `${topPx}px`;
+                            block.style.height = `${heightPx}px`;
+                            block.style.left = `calc(${idx * widthPercent}% + 1px)`;
+                            block.style.width = `calc(${widthPercent}% - 2px)`;
+                            block.style.backgroundColor = item.color || '#ff85a2';
+                            block.style.cursor = "default";
+                            block.innerHTML = `<span>${item.reason}</span>`;
+
+                            dayCol.appendChild(block);
+                        });
+                    }
+                });
+            }
+            return;
+        }
+
+        if (isEditMode && userCanEdit) {
+            viewModeFilterBar.style.display = "none";
+
+            for (let d = 0; d < 7; d++) {
+                const dayCol = document.getElementById(`day-${d}`);
+                
+                const dayEvents = [];
+                eventsData.forEach(item => {
+                    if (!isAdmin && item.user !== currentUser) return;
+                    if (shouldRenderInCurrentWeek(item, d)) {
+                        const localTimes = getLocalDisplayTimes(item, d);
+                        dayEvents.push({
+                            ...item,
+                            localTimes: localTimes
+                        });
+                    }
+                });
+
+                if (dayEvents.length === 0) continue;
+
+                dayEvents.sort((a, b) => a.localTimes.start - b.localTimes.start || (b.localTimes.end - b.localTimes.start) - (a.localTimes.end - a.localTimes.start));
+
+                const groups = [];
+                dayEvents.forEach(event => {
+                    let added = false;
+                    for (let group of groups) {
+                        const overlaps = group.some(e => !(event.localTimes.end <= e.localTimes.start || event.localTimes.start >= e.localTimes.end));
+                        if (overlaps) {
+                            group.push(event);
+                            added = true;
+                            break;
+                        }
+                    }
+                    if (!added) {
+                        groups.push([event]);
+                    }
+                });
+
+                groups.forEach(group => {
+                    if (group.length > 3) {
+                        const minStart = Math.min(...group.map(e => e.localTimes.start));
+                        const maxEnd = Math.max(...group.map(e => e.localTimes.end));
+
+                        const block = document.createElement("div");
+                        block.className = "event-block overflow-block";
+
+                        const topPx = minStart * 40;
+                        const heightPx = (maxEnd - minStart) * 40;
+
+                        block.style.top = `${topPx}px`;
+                        block.style.height = `${heightPx}px`;
+                        block.style.left = `2px`;
+                        block.style.width = `calc(100% - 4px)`;
+
+                        block.innerHTML = `<span><b>${group.length} Events</b></span><small>(Click to view list)</small>`;
+
+                        block.addEventListener("click", (e) => {
+                            e.stopPropagation();
+                            openOverflowModal(group);
+                        });
+
+                        dayCol.appendChild(block);
+                    } else {
                         const widthPercent = 100 / group.length;
 
                         group.forEach((item, idx) => {
