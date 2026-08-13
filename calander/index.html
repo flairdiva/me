@@ -3,12 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <meta name="title" content="Avanibility Calander">
-    <meta name="description" content="This page shows when my friends can play">
-    <meta name="theme-color" content="#ff85a2">
-    <title>Schedule Planner</title>
+    <title>Weekly Schedule Planner</title>
 
     <style>
         :root {
@@ -273,21 +268,26 @@
 
         .event-block {
             position: absolute;
-            left: 2px;
-            right: 2px;
             border-radius: 6px;
             color: white;
-            font-size: 0.75em;
+            font-size: 0.7em;
             font-weight: bold;
-            padding: 4px;
+            padding: 3px 4px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             overflow: hidden;
             z-index: 2;
             box-sizing: border-box;
             cursor: pointer;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            flex-direction: column;
+            justify-content: flex-start;
+            word-break: break-word;
+        }
+
+        .overflow-block {
+            background-color: #4a4a4a !important;
+            color: #ffffff;
+            border: 1px solid #333;
         }
 
         .view-free {
@@ -432,13 +432,23 @@
             text-align: center;
             word-break: break-all;
         }
+
+        .overflow-list-item {
+            padding: 8px;
+            border-bottom: 1px solid var(--light-pink);
+            font-size: 0.85em;
+        }
+
+        .overflow-list-item:last-child {
+            border-bottom: none;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header-row">
-        <h1>User Avanibility</h1>
+        <h1>Weekly Planner</h1>
         <div class="tab-buttons">
             <button class="tab-btn active" id="tabPlannerBtn" style="display:none;">Calendar</button>
             <button class="tab-btn" id="tabUsersBtn" style="display:none;">User Management</button>
@@ -447,8 +457,8 @@
     </div>
 
     <div id="loginGate" class="login-gate-box">
-        <h2>Welcome to User Avanibility</h2>
-        <p>Please log in with your given account to view or edit the calendar.</p>
+        <h2>Welcome to Weekly Planner</h2>
+        <p>Please log in with your account to view or edit the calendar.</p>
         <div class="auth-card" style="border:none; margin:0;">
             <input type="text" id="usernameInputGate" placeholder="Username">
             <input type="password" id="pinInputGate" placeholder="4-Digit PIN" maxlength="4" style="width: 90px;">
@@ -547,7 +557,7 @@
     </div>
 
     <div class="debug-footer" id="debugFooter">
-        <b>DEBUG INFO:</b> <span id="debugText">Detecting system parameters...</span>
+        🛠️ <b>DEBUG INFO:</b> <span id="debugText">Detecting system parameters...</span>
     </div>
 </div>
 
@@ -605,6 +615,16 @@
             <button class="btn-cancel" onclick="closeModal()">Cancel</button>
             <button class="btn-danger" id="deleteBtn" style="display:none;" onclick="promptDelete()">Delete</button>
             <button class="btn" id="saveEventBtn">Save Block</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="overflowModal">
+    <div class="modal-box">
+        <h3>Overlapping Events</h3>
+        <div id="overflowList" style="max-height:250px; overflow-y:auto; margin-bottom:15px;"></div>
+        <div class="modal-buttons">
+            <button class="btn-cancel" onclick="closeOverflowModal()">Close</button>
         </div>
     </div>
 </div>
@@ -937,7 +957,6 @@
         const filterContainer = document.getElementById("filterUsersList");
         filterContainer.innerHTML = "";
 
-        // Only display users with Can Edit = true AND Admin = false
         const filterableUsers = usersList.filter(u => {
             const userInfo = usersDataMap[u] || {};
             const isUserAdmin = userInfo.admin === true || userInfo.admin === "true";
@@ -1192,6 +1211,10 @@
         document.getElementById("eventModal").classList.remove("active");
     };
 
+    window.closeOverflowModal = function() {
+        document.getElementById("overflowModal").classList.remove("active");
+    };
+
     document.getElementById("saveEventBtn").addEventListener("click", () => {
         const id = document.getElementById("modalEventId").value;
         const day = parseInt(document.getElementById("eventDay").value);
@@ -1326,6 +1349,46 @@
         return false;
     }
 
+    function openOverflowModal(eventsList) {
+        const listElem = document.getElementById("overflowList");
+        listElem.innerHTML = "";
+
+        eventsList.forEach(item => {
+            const div = document.createElement("div");
+            div.className = "overflow-list-item";
+            div.style.borderLeft = `4px solid ${item.color || '#ff85a2'}`;
+            div.style.paddingLeft = "8px";
+            div.style.marginBottom = "6px";
+            div.innerHTML = `
+                <b>${item.user}</b>: ${item.reason}<br>
+                <small style="color:var(--sub-text);">${formatHourLabel(item.localTimes.start)} - ${formatHourLabel(item.localTimes.end)}</small>
+            `;
+
+            if (isAdmin || item.user === currentUser) {
+                div.style.cursor = "pointer";
+                div.addEventListener("click", () => {
+                    closeOverflowModal();
+                    document.getElementById("modalTitle").innerText = "Modify Block";
+                    document.getElementById("modalEventId").value = item.id;
+                    document.getElementById("modalSeriesId").value = item.seriesId || "";
+                    document.getElementById("eventDay").value = item.localTimes.day;
+                    document.getElementById("eventStart").value = item.localTimes.start;
+                    document.getElementById("eventEnd").value = item.localTimes.end;
+                    document.getElementById("eventReason").value = item.reason;
+                    document.getElementById("eventColor").value = item.color;
+                    document.getElementById("eventRepeat").value = item.repeat || "none";
+                    document.getElementById("eventUntilDate").value = item.untilDate || "";
+                    document.getElementById("deleteBtn").style.display = "block";
+                    document.getElementById("eventModal").classList.add("active");
+                });
+            }
+
+            listElem.appendChild(div);
+        });
+
+        document.getElementById("overflowModal").classList.add("active");
+    }
+
     function renderEvents() {
         for (let d = 0; d < 7; d++) {
             const dayCol = document.getElementById(`day-${d}`);
@@ -1335,45 +1398,109 @@
         if (isEditMode && userCanEdit) {
             viewModeFilterBar.style.display = "none";
 
-            eventsData.forEach(item => {
-                if (!isAdmin && item.user !== currentUser) return;
+            for (let d = 0; d < 7; d++) {
+                const dayCol = document.getElementById(`day-${d}`);
+                
+                // Collect all valid events for this day
+                const dayEvents = [];
+                eventsData.forEach(item => {
+                    if (!isAdmin && item.user !== currentUser) return;
+                    if (shouldRenderInCurrentWeek(item, d)) {
+                        const localTimes = getLocalDisplayTimes(item, d);
+                        dayEvents.push({
+                            ...item,
+                            localTimes: localTimes
+                        });
+                    }
+                });
 
-                for (let d = 0; d < 7; d++) {
-                    if (!shouldRenderInCurrentWeek(item, d)) continue;
+                if (dayEvents.length === 0) continue;
 
-                    const localTimes = getLocalDisplayTimes(item, d);
-                    const dayCol = document.getElementById(`day-${d}`);
-                    const block = document.createElement("div");
-                    block.className = "event-block";
+                // Group overlapping blocks
+                dayEvents.sort((a, b) => a.localTimes.start - b.localTimes.start || (b.localTimes.end - b.localTimes.start) - (a.localTimes.end - a.localTimes.start));
 
-                    const topPx = localTimes.start * 40;
-                    const heightPx = (localTimes.end - localTimes.start) * 40;
+                const groups = [];
+                dayEvents.forEach(event => {
+                    let added = false;
+                    for (let group of groups) {
+                        const overlaps = group.some(e => !(event.localTimes.end <= e.localTimes.start || event.localTimes.start >= e.localTimes.end));
+                        if (overlaps) {
+                            group.push(event);
+                            added = true;
+                            break;
+                        }
+                    }
+                    if (!added) {
+                        groups.push([event]);
+                    }
+                });
 
-                    block.style.top = `${topPx}px`;
-                    block.style.height = `${heightPx}px`;
-                    block.style.backgroundColor = item.color;
-                    block.innerHTML = `<span>${item.user}: ${item.reason}</span>`;
+                // Render each cluster of overlapping events
+                groups.forEach(group => {
+                    if (group.length > 3) {
+                        // Render overflow block if > 3 overlaps
+                        const minStart = Math.min(...group.map(e => e.localTimes.start));
+                        const maxEnd = Math.max(...group.map(e => e.localTimes.end));
 
-                    block.addEventListener("click", (e) => {
-                        e.stopPropagation();
-                        document.getElementById("modalTitle").innerText = "Modify Block";
-                        document.getElementById("modalEventId").value = item.id;
-                        document.getElementById("modalSeriesId").value = item.seriesId || "";
-                        document.getElementById("eventDay").value = d;
-                        document.getElementById("eventStart").value = localTimes.start;
-                        document.getElementById("eventEnd").value = localTimes.end;
-                        document.getElementById("eventReason").value = item.reason;
-                        document.getElementById("eventColor").value = item.color;
-                        document.getElementById("eventRepeat").value = item.repeat || "none";
-                        document.getElementById("eventUntilDate").value = item.untilDate || "";
-                        document.getElementById("deleteBtn").style.display = "block";
+                        const block = document.createElement("div");
+                        block.className = "event-block overflow-block";
 
-                        document.getElementById("eventModal").classList.add("active");
-                    });
+                        const topPx = minStart * 40;
+                        const heightPx = (maxEnd - minStart) * 40;
 
-                    dayCol.appendChild(block);
-                }
-            });
+                        block.style.top = `${topPx}px`;
+                        block.style.height = `${heightPx}px`;
+                        block.style.left = `2px`;
+                        block.style.width = `calc(100% - 4px)`;
+
+                        block.innerHTML = `<span><b>${group.length} Events</b></span><small>(Click to view list)</small>`;
+
+                        block.addEventListener("click", (e) => {
+                            e.stopPropagation();
+                            openOverflowModal(group);
+                        });
+
+                        dayCol.appendChild(block);
+                    } else {
+                        // Divide width for 1-3 overlapping events
+                        const widthPercent = 100 / group.length;
+
+                        group.forEach((item, idx) => {
+                            const block = document.createElement("div");
+                            block.className = "event-block";
+
+                            const topPx = item.localTimes.start * 40;
+                            const heightPx = (item.localTimes.end - item.localTimes.start) * 40;
+
+                            block.style.top = `${topPx}px`;
+                            block.style.height = `${heightPx}px`;
+                            block.style.left = `calc(${idx * widthPercent}% + 1px)`;
+                            block.style.width = `calc(${widthPercent}% - 2px)`;
+                            block.style.backgroundColor = item.color;
+                            block.innerHTML = `<span>${item.user}:</span><span>${item.reason}</span>`;
+
+                            block.addEventListener("click", (e) => {
+                                e.stopPropagation();
+                                document.getElementById("modalTitle").innerText = "Modify Block";
+                                document.getElementById("modalEventId").value = item.id;
+                                document.getElementById("modalSeriesId").value = item.seriesId || "";
+                                document.getElementById("eventDay").value = d;
+                                document.getElementById("eventStart").value = item.localTimes.start;
+                                document.getElementById("eventEnd").value = item.localTimes.end;
+                                document.getElementById("eventReason").value = item.reason;
+                                document.getElementById("eventColor").value = item.color;
+                                document.getElementById("eventRepeat").value = item.repeat || "none";
+                                document.getElementById("eventUntilDate").value = item.untilDate || "";
+                                document.getElementById("deleteBtn").style.display = "block";
+
+                                document.getElementById("eventModal").classList.add("active");
+                            });
+
+                            dayCol.appendChild(block);
+                        });
+                    }
+                });
+            }
         } else {
             viewModeFilterBar.style.display = "flex";
 
@@ -1382,7 +1509,6 @@
                 let hours = new Array(24).fill(false);
 
                 eventsData.forEach(e => {
-                    // Check user inclusion status (default to true if user is not in filterable map)
                     const isUserIncluded = activeUserFilters[e.user] !== false;
 
                     if (isUserIncluded && shouldRenderInCurrentWeek(e, d)) {
@@ -1406,6 +1532,8 @@
 
                         block.style.top = `${topPx}px`;
                         block.style.height = `${heightPx}px`;
+                        block.style.left = `2px`;
+                        block.style.width = `calc(100% - 4px)`;
                         block.innerText = currentStatus ? "BUSY" : "FREE";
 
                         dayCol.appendChild(block);
