@@ -17,6 +17,13 @@
             --now-highlight: #ff3366;
         }
 
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevents outer scrollbars */
+        }
+
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
@@ -24,34 +31,53 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
-            margin: 0;
+            justify-content: center;
+            padding: 10px;
+            box-sizing: border-box;
             user-select: none;
+        }
+
+        /* Profile/Embed Mode Optimization */
+        body.is-profile-embed {
+            padding: 0;
+            background-color: transparent;
+        }
+
+        body.is-profile-embed .container {
+            border-radius: 0;
+            box-shadow: none;
+            padding: 10px;
+            height: 100vh;
+            max-width: 100%;
         }
 
         .container {
             background: var(--card-bg);
             width: 100%;
             max-width: 1150px;
-            padding: 25px;
-            border-radius: 30px;
+            height: calc(100vh - 20px);
+            padding: 20px;
+            border-radius: 20px;
             box-shadow: 0 15px 35px rgba(255, 133, 162, 0.1);
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
         }
 
         .header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             border-bottom: 2px solid var(--light-pink);
-            padding-bottom: 10px;
+            padding-bottom: 8px;
+            flex-shrink: 0;
         }
 
         h1 {
             margin: 0;
             color: var(--accent-pink);
-            font-size: 1.8em;
+            font-size: 1.5em;
         }
 
         .tab-buttons {
@@ -63,7 +89,7 @@
             background: #f0f0f0;
             color: var(--text-main);
             border: none;
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 20px;
             font-weight: bold;
             cursor: pointer;
@@ -79,7 +105,7 @@
             background: var(--accent-pink);
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 20px;
             font-weight: bold;
             cursor: pointer;
@@ -91,18 +117,19 @@
         .auth-card {
             background: var(--bg-color);
             border: 1px solid var(--light-pink);
-            padding: 18px;
+            padding: 12px;
             border-radius: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             display: flex;
             gap: 10px;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
+            flex-shrink: 0;
         }
 
         .auth-card input, .admin-box select, .user-table select {
-            padding: 8px;
+            padding: 6px;
             border: 1px solid var(--light-pink);
             border-radius: 8px;
             outline: none;
@@ -111,7 +138,7 @@
 
         .login-gate-box {
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 20px;
             background: #fffcfc;
             border: 1px solid var(--light-pink);
             border-radius: 20px;
@@ -126,11 +153,11 @@
         .login-gate-box p {
             color: var(--sub-text);
             margin-bottom: 20px;
-            font-size: 0.95em;
+            font-size: 0.9em;
         }
 
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        .tab-content { display: none; height: 100%; flex-direction: column; }
+        .tab-content.active { display: flex; flex: 1; min-height: 0; }
 
         .nav-bar {
             display: flex;
@@ -138,15 +165,16 @@
             align-items: center;
             background: #fffcfc;
             border: 1px solid var(--light-pink);
-            padding: 10px 15px;
-            border-radius: 15px;
-            margin-bottom: 15px;
+            padding: 6px 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            flex-shrink: 0;
         }
 
         .nav-bar input[type="date"] {
-            padding: 6px 12px;
+            padding: 4px 8px;
             border: 1px solid var(--light-pink);
-            border-radius: 12px;
+            border-radius: 8px;
             color: var(--text-main);
             outline: none;
             font-weight: bold;
@@ -155,36 +183,37 @@
         .filter-bar {
             background: #fffcfc;
             border: 1px solid var(--light-pink);
-            padding: 10px 15px;
-            border-radius: 15px;
-            margin-bottom: 15px;
+            padding: 6px 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             flex-wrap: wrap;
+            flex-shrink: 0;
         }
 
         .filter-bar-title {
             font-weight: bold;
-            font-size: 0.85em;
+            font-size: 0.8em;
             color: var(--accent-pink);
         }
 
         .filter-users-list {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
             flex-wrap: wrap;
         }
 
         .filter-user-item {
-            font-size: 0.8em;
+            font-size: 0.75em;
             display: flex;
             align-items: center;
             gap: 4px;
             cursor: pointer;
             background: #fff;
-            padding: 4px 8px;
+            padding: 2px 6px;
             border-radius: 6px;
             border: 1px solid var(--light-pink);
         }
@@ -192,26 +221,30 @@
         .week-display {
             font-weight: bold;
             color: var(--accent-pink);
-            font-size: 0.95em;
+            font-size: 0.9em;
         }
 
         .calendar-container {
             display: grid;
-            grid-template-columns: 75px repeat(7, 1fr);
+            grid-template-columns: 55px repeat(7, 1fr);
+            grid-template-rows: 28px 1fr;
             background: #fffcfc;
             border: 1px solid var(--light-pink);
             border-radius: 15px;
             overflow: hidden;
             position: relative;
+            flex: 1;
+            min-height: 0; /* Important for flex container scaling */
         }
 
         .day-header, .time-header {
             background: var(--light-pink);
             color: var(--accent-pink);
             font-weight: bold;
-            padding: 10px 0;
-            text-align: center;
-            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75em;
             border-bottom: 1px solid var(--light-pink);
         }
 
@@ -220,31 +253,36 @@
             color: white;
         }
 
-        .time-column { display: grid; grid-template-rows: repeat(24, 40px); }
+        .time-column {
+            display: grid;
+            grid-template-rows: repeat(24, 1fr);
+            height: 100%;
+        }
 
         .time-slot-label {
-            font-size: 0.7em;
+            font-size: 0.65em;
             color: var(--sub-text);
-            text-align: center;
-            line-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-bottom: 1px solid #fceef1;
             border-right: 1px solid var(--light-pink);
-            transition: all 0.3s;
+            box-sizing: border-box;
         }
 
         .time-slot-label.current-hour-label {
             background-color: var(--light-pink);
             color: var(--now-highlight);
             font-weight: bold;
-            font-size: 0.75em;
         }
 
         .day-column {
             display: grid;
-            grid-template-rows: repeat(24, 40px);
+            grid-template-rows: repeat(24, 1fr);
             position: relative;
             border-right: 1px solid #fceef1;
             cursor: pointer;
+            height: 100%;
         }
 
         .day-column:last-child { border-right: none; }
@@ -252,7 +290,6 @@
         .hour-cell {
             border-bottom: 1px solid #fceef1;
             box-sizing: border-box;
-            transition: background 0.3s;
         }
 
         .hour-cell.selecting {
@@ -268,12 +305,12 @@
 
         .event-block {
             position: absolute;
-            border-radius: 6px;
+            border-radius: 4px;
             color: white;
-            font-size: 0.7em;
+            font-size: 0.65em;
             font-weight: bold;
-            padding: 3px 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 2px 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             overflow: hidden;
             z-index: 2;
             box-sizing: border-box;
@@ -282,6 +319,7 @@
             flex-direction: column;
             justify-content: flex-start;
             word-break: break-word;
+            line-height: 1.1;
         }
 
         .event-block.read-only-block {
@@ -313,22 +351,22 @@
         .admin-box {
             background: #fffcfc;
             border: 1px solid var(--light-pink);
-            padding: 20px;
+            padding: 15px;
             border-radius: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .user-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
         .user-table th, .user-table td {
             text-align: left;
-            padding: 10px;
+            padding: 8px;
             border-bottom: 1px solid var(--light-pink);
-            font-size: 0.85em;
+            font-size: 0.8em;
         }
 
         .user-table th {
@@ -342,18 +380,18 @@
         }
 
         .link-input-group input {
-            padding: 4px 8px;
+            padding: 4px;
             border: 1px solid var(--light-pink);
             border-radius: 6px;
-            font-size: 0.8em;
-            width: 180px;
+            font-size: 0.75em;
+            width: 150px;
             background: #fff;
             color: #555;
         }
 
         .link-input-group button {
-            padding: 4px 10px;
-            font-size: 0.8em;
+            padding: 3px 8px;
+            font-size: 0.75em;
             border-radius: 6px;
         }
 
@@ -371,10 +409,10 @@
 
         .modal-box {
             background: white;
-            padding: 25px;
+            padding: 20px;
             border-radius: 20px;
             width: 90%;
-            max-width: 400px;
+            max-width: 380px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
 
@@ -383,17 +421,17 @@
         .form-group {
             display: flex;
             flex-direction: column;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .form-group label {
-            font-size: 0.8em;
+            font-size: 0.75em;
             color: var(--sub-text);
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .form-group input, .form-group select {
-            padding: 8px;
+            padding: 6px;
             border: 1px solid var(--light-pink);
             border-radius: 8px;
             outline: none;
@@ -401,16 +439,16 @@
 
         .modal-buttons {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             justify-content: flex-end;
-            margin-top: 15px;
+            margin-top: 12px;
         }
 
         .btn-cancel {
             background: #ccc;
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 20px;
             cursor: pointer;
         }
@@ -419,28 +457,29 @@
             background: #ff4d4d;
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 20px;
             cursor: pointer;
         }
 
         .debug-footer {
-            margin-top: 20px;
-            padding: 10px;
+            margin-top: 8px;
+            padding: 6px;
             background: #f8f9fa;
             border: 1px dashed var(--sub-text);
-            border-radius: 10px;
+            border-radius: 8px;
             font-family: monospace;
-            font-size: 0.75em;
+            font-size: 0.7em;
             color: #555;
             text-align: center;
             word-break: break-all;
+            flex-shrink: 0;
         }
 
         .overflow-list-item {
-            padding: 8px;
+            padding: 6px;
             border-bottom: 1px solid var(--light-pink);
-            font-size: 0.85em;
+            font-size: 0.8em;
         }
 
         .overflow-list-item:last-child {
@@ -468,16 +507,16 @@
             <input type="password" id="pinInputGate" placeholder="4-Digit PIN" maxlength="4" style="width: 90px;">
             <button class="btn" id="loginBtnGate">Log In</button>
         </div>
-        <span id="authStatusGate" style="font-size: 0.85em; color: var(--accent-pink); margin-top: 10px; display: block;"></span>
+        <span id="authStatusGate" style="font-size: 0.8em; color: var(--accent-pink); margin-top: 8px; display: block;"></span>
     </div>
 
     <div class="auth-card" id="editModeAuthCard" style="display: none;">
         <label><b>Current User:</b></label>
         <span id="loggedInUserDisplay" style="font-weight: bold; color: var(--accent-pink);"></span>
-        <button class="btn" id="logoutBtn" style="padding: 4px 12px; font-size: 0.8em; margin-left: 10px; background: #6c757d;">Switch User / Log Out</button>
+        <button class="btn" id="logoutBtn" style="padding: 3px 10px; font-size: 0.75em; margin-left: 10px; background: #6c757d;">Switch User / Log Out</button>
     </div>
 
-    <div id="appContent" style="display: none;">
+    <div id="appContent" style="display: none; height: 100%; flex-direction: column;">
         <div class="tab-content active" id="plannerTab">
             <div class="nav-bar" id="mainNavBar">
                 <button class="btn" id="prevWeekBtn">◄ Prev Week</button>
@@ -490,8 +529,8 @@
                 <span class="filter-bar-title">Include Users:</span>
                 <div class="filter-users-list" id="filterUsersList"></div>
                 <div style="margin-left: auto; display: flex; gap: 5px;">
-                    <button class="btn" style="padding: 3px 8px; font-size: 0.75em;" onclick="setAllUserFilters(true)">Select All</button>
-                    <button class="btn" style="padding: 3px 8px; font-size: 0.75em; background: #6c757d;" onclick="setAllUserFilters(false)">Clear All</button>
+                    <button class="btn" style="padding: 2px 6px; font-size: 0.7em;" onclick="setAllUserFilters(true)">Select All</button>
+                    <button class="btn" style="padding: 2px 6px; font-size: 0.7em; background: #6c757d;" onclick="setAllUserFilters(false)">Clear All</button>
                 </div>
             </div>
 
@@ -517,19 +556,19 @@
             </div>
         </div>
 
-        <div class="tab-content" id="usersTab">
+        <div class="tab-content" id="usersTab" style="overflow-y: auto;">
             <div class="admin-box">
                 <h3 style="margin-top:0; color: var(--accent-pink);">Add New User</h3>
                 <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                    <input type="text" id="newUsername" placeholder="Username" style="padding:8px; border:1px solid var(--light-pink); border-radius:8px;">
-                    <input type="password" id="newPin" placeholder="4-Digit PIN" maxlength="4" style="width: 90px; padding:8px; border:1px solid var(--light-pink); border-radius:8px;">
-                    <label style="font-size:0.85em;">
+                    <input type="text" id="newUsername" placeholder="Username">
+                    <input type="password" id="newPin" placeholder="4-Digit PIN" maxlength="4" style="width: 90px;">
+                    <label style="font-size:0.8em;">
                         <input type="checkbox" id="newCanEdit" checked onchange="updateNewUserLandingOptions()"> Can Edit?
                     </label>
-                    <label style="font-size:0.85em;">
+                    <label style="font-size:0.8em;">
                         <input type="checkbox" id="newIsAdmin" onchange="updateNewUserLandingOptions()"> Admin Access?
                     </label>
-                    <select id="newLandingPage" style="padding:8px; border:1px solid var(--light-pink); border-radius:8px;">
+                    <select id="newLandingPage">
                         <option value="view">View page</option>
                         <option value="edit">Edit page</option>
                         <option value="users" disabled>User management</option>
@@ -626,7 +665,7 @@
 <div class="modal-overlay" id="overflowModal">
     <div class="modal-box">
         <h3>Overlapping Events</h3>
-        <div id="overflowList" style="max-height:250px; overflow-y:auto; margin-bottom:15px;"></div>
+        <div id="overflowList" style="max-height:200px; overflow-y:auto; margin-bottom:12px;"></div>
         <div class="modal-buttons">
             <button class="btn-cancel" onclick="closeOverflowModal()">Close</button>
         </div>
@@ -636,8 +675,8 @@
 <div class="modal-overlay" id="deleteModal">
     <div class="modal-box">
         <h3>Delete Repeating Block</h3>
-        <p style="font-size:0.85em; color:var(--text-main);">How would you like to delete this repeating event?</p>
-        <div style="display:flex; flex-direction:column; gap:8px; margin-top:15px;">
+        <p style="font-size:0.8em; color:var(--text-main);">How would you like to delete this repeating event?</p>
+        <div style="display:flex; flex-direction:column; gap:8px; margin-top:12px;">
             <button class="btn-danger" onclick="confirmDelete('single')">Delete only this block</button>
             <button class="btn-danger" onclick="confirmDelete('future')">Delete this and all future blocks</button>
             <button class="btn-danger" onclick="confirmDelete('all')">Delete all blocks in series</button>
@@ -703,12 +742,12 @@
     function updateDebugInfo() {
         try {
             const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown Timezone";
-            const formatStr = "24-hour (Forced 24h Grid Layout)";
+            const formatStr = "24-hour Dynamic Grid Layout";
             const nowIso = new Date().toISOString();
             const localTimeString = new Date().toLocaleString([], { hour12: false });
 
             document.getElementById("debugText").innerHTML = 
-                `<b>Timezone:</b> ${timeZone} | <b>Time Format:</b> ${formatStr} | <b>Local Time (24h):</b> ${localTimeString} | <b>UTC Time:</b> ${nowIso}`;
+                `<b>Timezone:</b> ${timeZone} | <b>Time Format:</b> ${formatStr} | <b>Local Time:</b> ${localTimeString} | <b>UTC Time:</b> ${nowIso}`;
         } catch (err) {
             document.getElementById("debugText").innerText = "Unable to read system timezone options.";
         }
@@ -873,7 +912,7 @@
                     userCanEdit = data.canEdit !== undefined ? (data.canEdit === true || data.canEdit === "true") : true;
 
                     loginGate.style.display = "none";
-                    appContent.style.display = "block";
+                    appContent.style.display = "flex";
 
                     tabPlannerBtn.style.display = isAdmin ? "inline-block" : "none";
                     tabUsersBtn.style.display = isAdmin ? "inline-block" : "none";
@@ -912,28 +951,25 @@
     window.addEventListener("DOMContentLoaded", () => {
         const params = new URLSearchParams(window.location.search);
         
-        // Handle ?profile mode (Embed variant)
         if (params.has("profile")) {
             isProfileMode = true;
             profileTargetUser = params.get("profile").trim().toLowerCase();
             const allowSelection = params.get("allowselection");
 
-            // Hide Title, Title Separator Line, Login Gate, User Auth Card & Debug Bar
+            document.body.classList.add("is-profile-embed");
+
             if (headerRow) headerRow.style.display = "none";
             if (loginGate) loginGate.style.display = "none";
             if (editModeAuthCard) editModeAuthCard.style.display = "none";
             if (debugFooter) debugFooter.style.display = "none";
 
-            // Hide week nav-bar if &allowselection=false
             if (allowSelection === "false" && mainNavBar) {
                 mainNavBar.style.display = "none";
             }
 
-            // Show app content, disable edit capability for profile view
-            appContent.style.display = "block";
+            appContent.style.display = "flex";
             userCanEdit = false;
             
-            // Activate profile view
             switchToPlannerView(false);
             return;
         }
@@ -1082,8 +1118,8 @@
                         </div>
                     </td>
                     <td>
-                        <button class="btn-danger" style="padding:4px 10px; font-size:0.75em; margin-right: 5px;" onclick="deleteAllUserBlocks('${u}')">Delete All Blocks</button>
-                        <button class="btn-danger" style="padding:4px 10px; font-size:0.75em; background: #6c757d;" onclick="deleteUser('${u}')">Delete Account</button>
+                        <button class="btn-danger" style="padding:3px 8px; font-size:0.75em; margin-right: 5px;" onclick="deleteAllUserBlocks('${u}')">Delete All Blocks</button>
+                        <button class="btn-danger" style="padding:3px 8px; font-size:0.75em; background: #6c757d;" onclick="deleteUser('${u}')">Delete Account</button>
                     </td>
                 `;
                 tableBody.appendChild(row);
@@ -1440,8 +1476,6 @@
             dayCol.querySelectorAll('.event-block').forEach(b => b.remove());
         }
 
-        // Editor layout mode (shows individual block cards with titles/reasons)
-        // Used in Edit Mode OR Profile Viewer Mode
         if (isProfileMode || (isEditMode && userCanEdit)) {
             viewModeFilterBar.style.display = "none";
 
@@ -1450,9 +1484,7 @@
                 
                 const dayEvents = [];
                 eventsData.forEach(item => {
-                    // In profile mode, filter specifically by profile target user if provided
                     if (isProfileMode && profileTargetUser && item.user.toLowerCase() !== profileTargetUser) return;
-                    
                     if (!isProfileMode && !isAdmin && item.user !== currentUser) return;
                     
                     if (shouldRenderInCurrentWeek(item, d)) {
@@ -1492,15 +1524,15 @@
                         const block = document.createElement("div");
                         block.className = "event-block overflow-block";
 
-                        const topPx = minStart * 40;
-                        const heightPx = (maxEnd - minStart) * 40;
+                        const topPct = (minStart / 24) * 100;
+                        const heightPct = ((maxEnd - minStart) / 24) * 100;
 
-                        block.style.top = `${topPx}px`;
-                        block.style.height = `${heightPx}px`;
+                        block.style.top = `${topPct}%`;
+                        block.style.height = `${heightPct}%`;
                         block.style.left = `2px`;
                         block.style.width = `calc(100% - 4px)`;
 
-                        block.innerHTML = `<span><b>${group.length} Events</b></span><small>(Click to view list)</small>`;
+                        block.innerHTML = `<span><b>${group.length} Events</b></span><small>(Click)</small>`;
 
                         block.addEventListener("click", (e) => {
                             e.stopPropagation();
@@ -1515,11 +1547,11 @@
                             const block = document.createElement("div");
                             block.className = `event-block ${isProfileMode ? 'read-only-block' : ''}`;
 
-                            const topPx = item.localTimes.start * 40;
-                            const heightPx = (item.localTimes.end - item.localTimes.start) * 40;
+                            const topPct = (item.localTimes.start / 24) * 100;
+                            const heightPct = ((item.localTimes.end - item.localTimes.start) / 24) * 100;
 
-                            block.style.top = `${topPx}px`;
-                            block.style.height = `${heightPx}px`;
+                            block.style.top = `${topPct}%`;
+                            block.style.height = `${heightPct}%`;
                             block.style.left = `calc(${idx * widthPercent}% + 1px)`;
                             block.style.width = `calc(${widthPercent}% - 2px)`;
                             block.style.backgroundColor = item.color;
@@ -1550,7 +1582,6 @@
                 });
             }
         } else {
-            // General View Mode (Aggregated Free/Busy view)
             viewModeFilterBar.style.display = "flex";
 
             for (let d = 0; d < 7; d++) {
@@ -1576,11 +1607,11 @@
                         const block = document.createElement("div");
                         block.className = `event-block ${currentStatus ? 'view-busy' : 'view-free'}`;
 
-                        const topPx = startHour * 40;
-                        const heightPx = (h - startHour) * 40;
+                        const topPct = (startHour / 24) * 100;
+                        const heightPct = ((h - startHour) / 24) * 100;
 
-                        block.style.top = `${topPx}px`;
-                        block.style.height = `${heightPx}px`;
+                        block.style.top = `${topPct}%`;
+                        block.style.height = `${heightPct}%`;
                         block.style.left = `2px`;
                         block.style.width = `calc(100% - 4px)`;
                         block.innerText = currentStatus ? "BUSY" : "FREE";
