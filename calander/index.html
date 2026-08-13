@@ -284,6 +284,10 @@
             word-break: break-word;
         }
 
+        .event-block.read-only-block {
+            cursor: default !important;
+        }
+
         .overflow-block {
             background-color: #4a4a4a !important;
             color: #ffffff;
@@ -664,6 +668,9 @@
     let isAdmin = false;
     let userCanEdit = true;
     let isEditMode = false;
+    let isProfileMode = false;
+    let profileTargetUser = null;
+
     let eventsData = [];
     let usersList = [];
     let usersDataMap = {};
@@ -714,7 +721,7 @@
         usersTab.classList.remove("active");
         
         isEditMode = editState && userCanEdit;
-        modeBtn.style.display = userCanEdit ? "inline-block" : "none";
+        modeBtn.style.display = (userCanEdit && !isProfileMode) ? "inline-block" : "none";
         modeBtn.innerText = isEditMode ? "Switch to View Mode" : "Switch to Edit Mode";
 
         updateEditAuthCardVisibility();
@@ -905,12 +912,13 @@
     window.addEventListener("DOMContentLoaded", () => {
         const params = new URLSearchParams(window.location.search);
         
-        // Handle ?profile mode
+        // Handle ?profile mode (Embed variant)
         if (params.has("profile")) {
-            const profileTarget = params.get("profile").trim().toLowerCase();
+            isProfileMode = true;
+            profileTargetUser = params.get("profile").trim().toLowerCase();
             const allowSelection = params.get("allowselection");
 
-            // Hide Title, Title Separator Line, Login Bars & Debug Bar
+            // Hide Title, Title Separator Line, Login Gate, User Auth Card & Debug Bar
             if (headerRow) headerRow.style.display = "none";
             if (loginGate) loginGate.style.display = "none";
             if (editModeAuthCard) editModeAuthCard.style.display = "none";
@@ -921,16 +929,12 @@
                 mainNavBar.style.display = "none";
             }
 
-            // Directly show content in View mode
+            // Show app content, disable edit capability for profile view
             appContent.style.display = "block";
             userCanEdit = false;
+            
+            // Activate profile view
             switchToPlannerView(false);
-
-            if (profileTarget) {
-                activeUserFilters = {};
-                activeUserFilters[profileTarget] = true;
-                renderEvents();
-            }
             return;
         }
 
@@ -962,8 +966,7 @@
     });
 
     function updateEditAuthCardVisibility() {
-        const params = new URLSearchParams(window.location.search);
-        if (params.has("profile")) {
+        if (isProfileMode) {
             editModeAuthCard.style.display = "none";
             return;
         }
@@ -1003,13 +1006,10 @@
             return isUserEditable && !isUserAdmin;
         });
 
-        const params = new URLSearchParams(window.location.search);
-        const profileTarget = params.get("profile") ? params.get("profile").trim().toLowerCase() : null;
-
         filterableUsers.forEach(u => {
             if (activeUserFilters[u] === undefined) {
-                if (profileTarget) {
-                    activeUserFilters[u] = (u.toLowerCase() === profileTarget);
+                if (profileTargetUser) {
+                    activeUserFilters[u] = (u.toLowerCase() === profileTargetUser);
                 } else {
                     activeUserFilters[u] = true;
                 }
@@ -1182,8 +1182,7 @@
     });
 
     modeBtn.addEventListener("click", () => {
-        if (!userCanEdit) {
-            alert("You do not have permission to edit availability.");
+        if (isProfileMode || !userCanEdit) {
             return;
         }
         isEditMode = !isEditMode;
@@ -1193,7 +1192,7 @@
     });
 
     function handleMouseDown(day, hour) {
-        if (!isEditMode || !userCanEdit) return;
+        if (isProfileMode || !isEditMode || !userCanEdit) return;
         isDragging = true;
         dragDay = day;
         dragStartHour = hour;
@@ -1202,13 +1201,13 @@
     }
 
     function handleMouseEnter(day, hour) {
-        if (!isDragging || dragDay !== day) return;
+        if (isProfileMode || !isDragging || dragDay !== day) return;
         dragEndHour = hour;
         highlightCells();
     }
 
     function handleMouseUp() {
-        if (!isDragging) return;
+        if (isProfileMode || !isDragging) return;
         isDragging = false;
 
         const start = Math.min(dragStartHour, dragEndHour);
@@ -1235,10 +1234,7 @@
     }
 
     function openModalForNew(day, start, end) {
-        if (!currentUser || !userCanEdit) {
-            alert("Log in with edit privileges to add blocks.");
-            return;
-        }
+        if (isProfileMode || !currentUser || !userCanEdit) return;
         document.getElementById("modalTitle").innerText = "Add Block";
         document.getElementById("modalEventId").value = "";
         document.getElementById("modalSeriesId").value = "";
@@ -1262,6 +1258,7 @@
     };
 
     document.getElementById("saveEventBtn").addEventListener("click", () => {
+        if (isProfileMode) return;
         const id = document.getElementById("modalEventId").value;
         const day = parseInt(document.getElementById("eventDay").value);
         const reason = document.getElementById("eventReason").value || "Busy";
@@ -1313,6 +1310,7 @@
     });
 
     window.promptDelete = function() {
+        if (isProfileMode) return;
         const seriesId = document.getElementById("modalSeriesId").value;
         if (seriesId && seriesId !== "null") {
             document.getElementById("deleteModal").classList.add("active");
@@ -1326,6 +1324,7 @@
     };
 
     window.confirmDelete = function(mode) {
+        if (isProfileMode) return;
         const id = document.getElementById("modalEventId").value;
         const seriesId = document.getElementById("modalSeriesId").value;
 
@@ -1410,7 +1409,7 @@
                 <small style="color:var(--sub-text);">${formatHourLabel(item.localTimes.start)} - ${formatHourLabel(item.localTimes.end)}</small>
             `;
 
-            if (isAdmin || item.user === currentUser) {
+            if (!isProfileMode && (isAdmin || item.user === currentUser)) {
                 div.style.cursor = "pointer";
                 div.addEventListener("click", () => {
                     closeOverflowModal();
@@ -1441,7 +1440,9 @@
             dayCol.querySelectorAll('.event-block').forEach(b => b.remove());
         }
 
-        if (isEditMode && userCanEdit) {
+        // Editor layout mode (shows individual block cards with titles/reasons)
+        // Used in Edit Mode OR Profile Viewer Mode
+        if (isProfileMode || (isEditMode && userCanEdit)) {
             viewModeFilterBar.style.display = "none";
 
             for (let d = 0; d < 7; d++) {
@@ -1449,7 +1450,11 @@
                 
                 const dayEvents = [];
                 eventsData.forEach(item => {
-                    if (!isAdmin && item.user !== currentUser) return;
+                    // In profile mode, filter specifically by profile target user if provided
+                    if (isProfileMode && profileTargetUser && item.user.toLowerCase() !== profileTargetUser) return;
+                    
+                    if (!isProfileMode && !isAdmin && item.user !== currentUser) return;
+                    
                     if (shouldRenderInCurrentWeek(item, d)) {
                         const localTimes = getLocalDisplayTimes(item, d);
                         dayEvents.push({
@@ -1508,7 +1513,7 @@
 
                         group.forEach((item, idx) => {
                             const block = document.createElement("div");
-                            block.className = "event-block";
+                            block.className = `event-block ${isProfileMode ? 'read-only-block' : ''}`;
 
                             const topPx = item.localTimes.start * 40;
                             const heightPx = (item.localTimes.end - item.localTimes.start) * 40;
@@ -1520,22 +1525,24 @@
                             block.style.backgroundColor = item.color;
                             block.innerHTML = `<span>${item.user}:</span><span>${item.reason}</span>`;
 
-                            block.addEventListener("click", (e) => {
-                                e.stopPropagation();
-                                document.getElementById("modalTitle").innerText = "Modify Block";
-                                document.getElementById("modalEventId").value = item.id;
-                                document.getElementById("modalSeriesId").value = item.seriesId || "";
-                                document.getElementById("eventDay").value = d;
-                                document.getElementById("eventStart").value = item.localTimes.start;
-                                document.getElementById("eventEnd").value = item.localTimes.end;
-                                document.getElementById("eventReason").value = item.reason;
-                                document.getElementById("eventColor").value = item.color;
-                                document.getElementById("eventRepeat").value = item.repeat || "none";
-                                document.getElementById("eventUntilDate").value = item.untilDate || "";
-                                document.getElementById("deleteBtn").style.display = "block";
+                            if (!isProfileMode) {
+                                block.addEventListener("click", (e) => {
+                                    e.stopPropagation();
+                                    document.getElementById("modalTitle").innerText = "Modify Block";
+                                    document.getElementById("modalEventId").value = item.id;
+                                    document.getElementById("modalSeriesId").value = item.seriesId || "";
+                                    document.getElementById("eventDay").value = d;
+                                    document.getElementById("eventStart").value = item.localTimes.start;
+                                    document.getElementById("eventEnd").value = item.localTimes.end;
+                                    document.getElementById("eventReason").value = item.reason;
+                                    document.getElementById("eventColor").value = item.color;
+                                    document.getElementById("eventRepeat").value = item.repeat || "none";
+                                    document.getElementById("eventUntilDate").value = item.untilDate || "";
+                                    document.getElementById("deleteBtn").style.display = "block";
 
-                                document.getElementById("eventModal").classList.add("active");
-                            });
+                                    document.getElementById("eventModal").classList.add("active");
+                                });
+                            }
 
                             dayCol.appendChild(block);
                         });
@@ -1543,6 +1550,7 @@
                 });
             }
         } else {
+            // General View Mode (Aggregated Free/Busy view)
             viewModeFilterBar.style.display = "flex";
 
             for (let d = 0; d < 7; d++) {
