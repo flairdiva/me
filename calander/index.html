@@ -485,6 +485,23 @@
         .overflow-list-item:last-child {
             border-bottom: none;
         }
+
+        /* 1. Lift grid lines to z-index level 2 */
+.hour-cell {
+    position: relative;
+    z-index: 2;
+}
+
+/* 2. Edit Mode blocks sit ABOVE grid lines (z-index 3) */
+.event-block {
+    z-index: 3 !important;
+}
+
+/* 3. View Mode blocks sit BELOW grid lines (z-index 1) */
+.view-free,
+.view-busy {
+    z-index: 1 !important;
+}
     </style>
 </head>
 <body>
