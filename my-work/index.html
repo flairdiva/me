@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Work | Flair Diva</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
     <style>
         :root {
             --bg-color: #fffafa;
@@ -68,6 +70,11 @@
             padding: 25px;
             margin-bottom: 30px;
             transition: box-shadow 0.3s;
+            display: none;
+        }
+
+        .work-item.public-post {
+            display: block;
         }
 
         .work-item:hover {
@@ -101,6 +108,145 @@
         .work-info {
             line-height: 1.6;
             font-size: 0.95em;
+        }
+
+        .public-blog-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .public-blog-filter label {
+            color: var(--date-color);
+            font-weight: 600;
+        }
+
+        .public-blog-filter select {
+            border: 1px solid var(--light-pink);
+            border-radius: 8px;
+            padding: 8px 10px;
+            color: var(--text-main);
+            background: #fff;
+        }
+
+        .public-blog-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            display: block;
+            cursor: zoom-in;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .public-blog-image:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 20px rgba(255, 133, 162, 0.2);
+        }
+
+        .image-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background: rgba(30, 25, 28, 0.82);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+            cursor: zoom-out;
+        }
+
+        .image-lightbox.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .image-lightbox img {
+            max-width: min(1100px, 95vw);
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            transform: scale(0.94);
+            transition: transform 0.25s ease;
+            cursor: default;
+        }
+
+        .image-lightbox.open img {
+            transform: scale(1);
+        }
+
+        .public-blog-content h4,
+        .public-blog-content h5,
+        .public-blog-content h6 {
+            color: var(--accent-pink);
+            margin: 14px 0 6px;
+        }
+
+        .public-blog-content h4 { font-size: 1.2rem; }
+        .public-blog-content h5 { font-size: 1.1rem; }
+        .public-blog-content h6 { font-size: 1.05rem; }
+
+        .public-blog-content strong {
+            color: var(--accent-pink);
+        }
+
+        .public-blog-content .spoiler {
+            background: var(--text-main);
+            color: transparent;
+            border-radius: 4px;
+            padding: 0 4px;
+            cursor: pointer;
+        }
+
+        .public-blog-content .spoiler:hover,
+        .public-blog-content .spoiler:focus {
+            color: #fff;
+        }
+
+        .public-blog-content del { opacity: 0.7; }
+
+        .public-blog-content pre {
+            background: #2f2f3a;
+            color: #fff;
+            border-radius: 8px;
+            padding: 12px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .public-blog-content code {
+            background: rgba(74, 74, 74, 0.12);
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
+
+        .public-blog-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        .public-blog-content a {
+            color: var(--text-main);
+            font-weight: bold;
+        }
+
+        .public-blog-tags {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .public-blog-empty,
+        .public-blog-error {
+            color: var(--date-color);
+            margin-bottom: 25px;
         }
 
         .work-tags {
@@ -193,6 +339,13 @@
             <h1>My Activity & Creations</h1>
             <p>A collection of my latest drawings and projects.</p>
         </div>
+        <div class="public-blog-filter">
+            <label for="public-blog-tag-filter">Filter:</label>
+            <select id="public-blog-tag-filter" onchange="filterPublicBlogPosts(this.value)">
+                <option value="all">All tags</option>
+            </select>
+        </div>
+        <div id="public-blog-posts"></div>
         <!-- ADD BELLOW -->
 
 
@@ -417,10 +570,240 @@ in the meanwhile heres it on a old trend :D
         </div>
     </div>
 
+    <div class="image-lightbox" id="image-lightbox" role="dialog" aria-modal="true" aria-label="Expanded image">
+        <img id="lightbox-image" alt="">
+    </div>
+
     <script>
-        // Check if the page is opened as a local file
+        const publicBlogApp = firebase.initializeApp({
+            databaseURL: "https://flairdiva-blog-default-rtdb.firebaseio.com"
+        }, 'public-blog');
+        const publicBlogDatabase = firebase.database(publicBlogApp);
+        let publicBlogPosts = {};
+        let selectedPublicBlogTag = 'all';
+        const imageLightbox = document.getElementById('image-lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+
+        function getPublicPostTags(post) {
+            if (Array.isArray(post.tags)) return post.tags;
+            return String(post.tags || '').split(',').map(tag => tag.trim()).filter(Boolean);
+        }
+
+        function loadPublicBlog() {
+            publicBlogDatabase.ref('blog').once('value').then(snapshot => {
+                const blog = snapshot.val() || {};
+                renderPublicBlogPosts(blog.posts || {});
+            }).catch(error => {
+                console.error('Public blog database error:', error);
+                const errorMessage = document.createElement('p');
+                errorMessage.className = 'public-blog-error';
+                errorMessage.innerText = 'The public blog is temporarily unavailable.';
+                document.getElementById('public-blog-posts').replaceChildren(errorMessage);
+            });
+        }
+
+        function updatePublicBlogTagFilter() {
+            const filter = document.getElementById('public-blog-tag-filter');
+            const tags = [...new Set(Object.values(publicBlogPosts).flatMap(getPublicPostTags))].sort((first, second) =>
+                first.localeCompare(second)
+            );
+            filter.replaceChildren();
+
+            const allOption = document.createElement('option');
+            allOption.value = 'all';
+            allOption.innerText = 'All tags';
+            filter.appendChild(allOption);
+
+            tags.forEach(tag => {
+                const option = document.createElement('option');
+                option.value = tag;
+                option.innerText = tag;
+                filter.appendChild(option);
+            });
+
+            if (selectedPublicBlogTag !== 'all' && !tags.includes(selectedPublicBlogTag)) {
+                selectedPublicBlogTag = 'all';
+            }
+            filter.value = selectedPublicBlogTag;
+        }
+
+        function filterPublicBlogPosts(tag) {
+            selectedPublicBlogTag = tag;
+            renderPublicBlogPosts(publicBlogPosts);
+        }
+
+        function openImageLightbox(image) {
+            lightboxImage.src = image.src;
+            lightboxImage.alt = image.alt;
+            imageLightbox.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageLightbox() {
+            imageLightbox.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function renderPublicBlogPosts(posts) {
+            publicBlogPosts = Object.fromEntries(
+                Object.entries(posts).filter(([, post]) => post.public === true)
+            );
+            updatePublicBlogTagFilter();
+
+            const container = document.getElementById('public-blog-posts');
+            container.replaceChildren();
+            const entries = Object.entries(publicBlogPosts).filter(([, post]) =>
+                selectedPublicBlogTag === 'all' || getPublicPostTags(post).includes(selectedPublicBlogTag)
+            ).sort(([, first], [, second]) => String(second.date || '').localeCompare(String(first.date || '')));
+
+            if (!entries.length) {
+                const emptyMessage = document.createElement('p');
+                emptyMessage.className = 'public-blog-empty';
+                emptyMessage.innerText = selectedPublicBlogTag === 'all'
+                    ? 'No public posts have been published yet.'
+                    : 'No public posts match this tag.';
+                container.appendChild(emptyMessage);
+                return;
+            }
+
+            entries.forEach(([, post]) => {
+                const article = document.createElement('article');
+                article.className = 'work-item public-post';
+
+                if (post.image) {
+                    const image = document.createElement('img');
+                    image.className = 'public-blog-image';
+                    image.src = post.image;
+                    image.alt = post.title || 'Blog post image';
+                    image.loading = 'lazy';
+                    image.onerror = () => image.remove();
+                    image.addEventListener('click', () => openImageLightbox(image));
+                    article.appendChild(image);
+                }
+
+                const date = document.createElement('span');
+                date.className = 'work-date';
+                date.innerText = post.date || '';
+                const title = document.createElement('h2');
+                title.className = 'work-title';
+                title.innerText = post.title || 'Untitled post';
+                const body = document.createElement('div');
+                body.className = 'work-info public-blog-content';
+                renderPublicFormattedText(body, post.body || '');
+                article.append(date, title, body);
+
+                const tags = getPublicPostTags(post);
+                if (tags.length) {
+                    const tagList = document.createElement('div');
+                    tagList.className = 'public-blog-tags';
+                    tags.forEach(tag => {
+                        const tagElement = document.createElement('span');
+                        tagElement.className = 'tag';
+                        tagElement.innerText = tag;
+                        tagList.appendChild(tagElement);
+                    });
+                    article.appendChild(tagList);
+                }
+                container.appendChild(article);
+            });
+        }
+
+        function renderPublicFormattedText(container, text) {
+            const lines = String(text).split(/\r?\n/);
+            let codeLines = null;
+
+            lines.forEach(line => {
+                if (line.trim() === '```') {
+                    if (codeLines === null) {
+                        codeLines = [];
+                    } else {
+                        appendPublicCodeBlock(container, codeLines.join('\n'));
+                        codeLines = null;
+                    }
+                    return;
+                }
+                if (codeLines !== null) {
+                    codeLines.push(line);
+                    return;
+                }
+
+                const headerMatch = line.match(/^(#{1,3})\s+(.+)$/);
+                if (headerMatch) {
+                    const heading = document.createElement(`h${headerMatch[1].length + 3}`);
+                    appendPublicInlineText(heading, headerMatch[2]);
+                    container.appendChild(heading);
+                    return;
+                }
+                appendPublicInlineText(container, line);
+                container.appendChild(document.createElement('br'));
+            });
+
+            if (codeLines !== null) appendPublicCodeBlock(container, codeLines.join('\n'));
+        }
+
+        function appendPublicCodeBlock(container, text) {
+            const block = document.createElement('pre');
+            const code = document.createElement('code');
+            code.innerText = text;
+            block.appendChild(code);
+            container.appendChild(block);
+        }
+
+        function appendPublicInlineText(container, text) {
+            const pattern = /\*\*([^*]+)\*\*|\|\|([^|]+)\|\||~~([^~]+)~~|```([^`]+)```|\(([^)]+)\)\[([^\]]+)\]/g;
+            let lastIndex = 0;
+            let match;
+
+            while ((match = pattern.exec(text)) !== null) {
+                if (match.index > lastIndex) {
+                    container.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+                }
+                if (match[1]) {
+                    const bold = document.createElement('strong');
+                    bold.innerText = match[1];
+                    container.appendChild(bold);
+                } else if (match[2]) {
+                    const spoiler = document.createElement('span');
+                    spoiler.className = 'spoiler';
+                    spoiler.tabIndex = 0;
+                    spoiler.innerText = match[2];
+                    container.appendChild(spoiler);
+                } else if (match[3]) {
+                    const strike = document.createElement('del');
+                    strike.innerText = match[3];
+                    container.appendChild(strike);
+                } else if (match[4]) {
+                    const code = document.createElement('code');
+                    code.innerText = match[4];
+                    container.appendChild(code);
+                } else {
+                    const link = document.createElement('a');
+                    link.innerText = match[5];
+                    const isSafeLink = /^(https?:\/\/|mailto:)/i.test(match[6]);
+                    link.href = isSafeLink ? match[6] : '#';
+                    if (isSafeLink) {
+                        link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
+                    }
+                    container.appendChild(link);
+                }
+                lastIndex = pattern.lastIndex;
+            }
+            if (lastIndex < text.length) {
+                container.appendChild(document.createTextNode(text.slice(lastIndex)));
+            }
+        }
+
+        loadPublicBlog();
+
+        imageLightbox.addEventListener('click', event => {
+            if (event.target === imageLightbox) closeImageLightbox();
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') closeImageLightbox();
+        });
+
         if (window.location.protocol === 'file:') {
-            // Add a star to the beginning of the existing title
             document.title = "★ " + document.title;
         }
     </script>
